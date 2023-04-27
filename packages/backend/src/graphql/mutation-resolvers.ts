@@ -18,6 +18,7 @@ import updateUser from './mutations/update-user';
 import forgotPassword from './mutations/forgot-password.ee';
 import resetPassword from './mutations/reset-password.ee';
 import login from './mutations/login';
+import auth from './mutations/auth';
 
 const mutationResolvers = {
   createConnection,
@@ -40,6 +41,7 @@ const mutationResolvers = {
   forgotPassword,
   resetPassword,
   login,
+  auth,
 };
 
 export default mutationResolvers;

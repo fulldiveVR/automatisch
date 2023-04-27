@@ -46,6 +46,7 @@ type AppConfig = {
   paddlePublicKey: string;
   licenseKey: string;
   sentryDsn: string;
+  aiNewsApiHost: string;
 };
 
 const host = process.env.HOST || 'localhost';
@@ -119,6 +120,7 @@ const appConfig: AppConfig = {
   paddlePublicKey: process.env.PADDLE_PUBLIC_KEY,
   licenseKey: process.env.LICENSE_KEY,
   sentryDsn: process.env.SENTRY_DSN,
+  aiNewsApiHost: process.env.AI_NEWS_API_HOST,
 };
 
 if (!appConfig.encryptionKey) {

@@ -8,13 +8,24 @@ const isAuthenticated = rule()(async (_parent, _args, req) => {
 
   if (token == null) return false;
 
-  try {
-    const { userId } = jwt.verify(token, appConfig.appSecretKey) as {
-      userId: string;
-    };
-    req.currentUser = await User.query().findById(userId).throwIfNotFound();
+  const verified = jwt.verify(token, appConfig.appSecretKey);
 
-    return true;
+  try {
+    const { userId } = verified as { userId: string };
+    if (userId) {
+      req.currentUser = await User.query().findById(userId).throwIfNotFound();
+      return true;
+    }
+
+    const { id: shortId } = verified as { id: string };
+    if (shortId) {
+      req.currentUser = await User.query()
+        .findOne({ fulldiveShortId: shortId })
+        .throwIfNotFound();
+      return true;
+    }
+
+    return false;
   } catch (error) {
     return false;
   }
@@ -30,6 +41,7 @@ const authentication = shield(
     Mutation: {
       '*': isAuthenticated,
       login: allow,
+      auth: allow,
       createUser: allow,
       forgotPassword: allow,
       resetPassword: allow,

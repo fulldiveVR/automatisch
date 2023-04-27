@@ -65,6 +65,7 @@ type Mutation {
   forgotPassword(input: ForgotPasswordInput): Boolean
   resetPassword(input: ResetPasswordInput): Boolean
   login(input: LoginInput): Auth
+  auth(input: AuthInput): Auth
 }
 
 """
@@ -374,6 +375,10 @@ input ResetPasswordInput {
 input LoginInput {
   email: String!
   password: String!
+}
+
+input AuthInput {
+  token: String!
 }
 
 """
