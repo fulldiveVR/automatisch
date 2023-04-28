@@ -7,6 +7,7 @@ import Executions from 'pages/Executions';
 import Execution from 'pages/Execution';
 import Flows from 'pages/Flows';
 import Flow from 'pages/Flow';
+import Auth from 'pages/Auth';
 import Login from 'pages/Login';
 import SignUp from 'pages/SignUp/index.ee';
 import ForgotPassword from 'pages/ForgotPassword/index.ee';
@@ -79,6 +80,15 @@ export default (
       element={
         <PublicLayout>
           <Login />
+        </PublicLayout>
+      }
+    />
+
+    <Route
+      path={URLS.AUTH}
+      element={
+        <PublicLayout>
+          <Auth />
         </PublicLayout>
       }
     />

@@ -20,7 +20,7 @@ const isAuthenticated = rule()(async (_parent, _args, req) => {
     const { id: shortId } = verified as { id: string };
     if (shortId) {
       req.currentUser = await User.query()
-        .findOne({ fulldiveShortId: shortId })
+        .findOne({ fulldive_short_id: shortId })
         .throwIfNotFound();
       return true;
     }

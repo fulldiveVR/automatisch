@@ -21,6 +21,7 @@ class User extends Base {
   resetPasswordToken: string;
   resetPasswordTokenSentAt: string;
   trialExpiryDate: string;
+  fulldiveShortId: string;
   connections?: Connection[];
   flows?: Flow[];
   steps?: Step[];
@@ -29,7 +30,6 @@ class User extends Base {
   currentUsageData?: UsageData;
   subscriptions?: Subscription[];
   currentSubscription?: Subscription;
-  fulldiveShortId?: string;
 
   static tableName = 'users';
 
@@ -43,7 +43,6 @@ class User extends Base {
       email: { type: 'string', format: 'email', minLength: 1, maxLength: 255 },
       password: { type: 'string', minLength: 1, maxLength: 255 },
       role: { type: 'string', enum: ['admin', 'user'] },
-      fulldiveShortId: { type: 'string', minLength: 1, maxLength: 255 },
     },
   };
 

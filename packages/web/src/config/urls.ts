@@ -4,6 +4,7 @@ export const EXECUTION_PATTERN = '/executions/:executionId';
 export const EXECUTION = (executionId: string): string =>
   `/executions/${executionId}`;
 
+export const AUTH = '/auth';
 export const LOGIN = '/login';
 export const SIGNUP = '/sign-up';
 export const FORGOT_PASSWORD = '/forgot-password';

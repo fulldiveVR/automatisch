@@ -20,7 +20,7 @@ const auth = async (_parent: unknown, params: Params) => {
   if (!shortId)
     throw new Error('Short userId could not be found with provided token.');
 
-  const user = await User.query().findOne({ fulldiveShortId: shortId });
+  const user = await User.query().findOne({ fulldive_short_id: shortId });
   if (user) {
     return { token: params.input.token, user };
   } else {
