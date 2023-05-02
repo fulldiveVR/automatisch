@@ -2,6 +2,8 @@
 FROM node:16-alpine
 WORKDIR /automatisch
 
+RUN apk add g++ make python3
+
 ENV PORT 3000
 
 RUN ls -lna

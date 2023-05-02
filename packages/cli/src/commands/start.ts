@@ -88,7 +88,9 @@ export default class Start extends Command {
 
     await this.runMigrationsIfNeeded();
 
-    await this.seedUser();
+    if (!this.isProduction) {
+      await this.seedUser();
+    }
 
     await this.runApp();
   }
