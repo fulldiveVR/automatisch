@@ -38,29 +38,15 @@ const drawerLinks = [
   },
 ];
 
-const generateDrawerBottomLinks = ({ notificationBadgeContent = 0 }) => [
-  {
-    Icon: NotificationsIcon,
-    primary: 'settingsDrawer.notifications',
-    to: URLS.UPDATES,
-    badgeContent: notificationBadgeContent,
-  },
-];
-
 export default function PublicLayout({
   children,
 }: PublicLayoutProps): React.ReactElement {
-  const version = useVersion();
   const theme = useTheme();
   const matchSmallScreens = useMediaQuery(theme.breakpoints.down('lg'));
   const [isDrawerOpen, setDrawerOpen] = React.useState(!matchSmallScreens);
 
   const openDrawer = () => setDrawerOpen(true);
   const closeDrawer = () => setDrawerOpen(false);
-
-  const drawerBottomLinks = generateDrawerBottomLinks({
-    notificationBadgeContent: version.newVersionCount,
-  });
 
   return (
     <>
@@ -73,7 +59,7 @@ export default function PublicLayout({
       <Box sx={{ display: 'flex' }}>
         <Drawer
           links={drawerLinks}
-          bottomLinks={drawerBottomLinks}
+          bottomLinks={[]}
           open={isDrawerOpen}
           onOpen={openDrawer}
           onClose={closeDrawer}
