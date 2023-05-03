@@ -78,14 +78,6 @@ function LoginForm() {
           sx={{ mb: 1 }}
         />
 
-        {isCloud && <Link
-          component={RouterLink}
-          to={URLS.FORGOT_PASSWORD}
-          underline="none"
-        >
-          {formatMessage('loginForm.forgotPasswordText')}
-        </Link>}
-
         <LoadingButton
           type="submit"
           variant="contained"
@@ -98,13 +90,15 @@ function LoginForm() {
           {formatMessage('loginForm.submit')}
         </LoadingButton>
 
-        {isCloud && <Typography variant="body1" align="center" mt={3}>
-          {formatMessage('loginForm.noAccount')}
-          &nbsp;
-          <Link component={RouterLink} to={URLS.SIGNUP} underline="none">
-          {formatMessage('loginForm.signUp')}
-          </Link>
-        </Typography>}
+        {isCloud && (
+          <Typography variant="body1" align="center" mt={3}>
+            {formatMessage('loginForm.noAccount')}
+            &nbsp;
+            <Link component={RouterLink} to={URLS.SIGNUP} underline="none">
+              {formatMessage('loginForm.signUp')}
+            </Link>
+          </Typography>
+        )}
       </Form>
     </Paper>
   );
