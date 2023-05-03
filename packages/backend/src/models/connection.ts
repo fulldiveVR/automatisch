@@ -6,7 +6,6 @@ import User from './user';
 import Step from './step';
 import appConfig from '../config/app';
 import { IJSONObject } from '@automatisch/types';
-import Telemetry from '../helpers/telemetry';
 
 class Connection extends Base {
   id!: string;
@@ -99,16 +98,6 @@ class Connection extends Base {
 
   async $afterFind(): Promise<void> {
     this.decryptData();
-  }
-
-  async $afterInsert(queryContext: QueryContext) {
-    await super.$afterInsert(queryContext);
-    Telemetry.connectionCreated(this);
-  }
-
-  async $afterUpdate(opt: ModelOptions, queryContext: QueryContext) {
-    await super.$afterUpdate(opt, queryContext);
-    Telemetry.connectionUpdated(this);
   }
 }
 

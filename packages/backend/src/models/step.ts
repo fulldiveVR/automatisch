@@ -1,12 +1,10 @@
 import { URL } from 'node:url';
-import { QueryContext, ModelOptions } from 'objection';
 import type { IJSONObject, IStep } from '@automatisch/types';
 import Base from './base';
 import App from './app';
 import Flow from './flow';
 import Connection from './connection';
 import ExecutionStep from './execution-step';
-import Telemetry from '../helpers/telemetry';
 import appConfig from '../config/app';
 
 class Step extends Base {
@@ -88,16 +86,6 @@ class Step extends Base {
 
     const url = new URL(`/webhooks/${this.flowId}`, appConfig.webhookUrl);
     return url.toString();
-  }
-
-  async $afterInsert(queryContext: QueryContext) {
-    await super.$afterInsert(queryContext);
-    Telemetry.stepCreated(this);
-  }
-
-  async $afterUpdate(opt: ModelOptions, queryContext: QueryContext) {
-    await super.$afterUpdate(opt, queryContext);
-    Telemetry.stepUpdated(this);
   }
 
   get isTrigger(): boolean {

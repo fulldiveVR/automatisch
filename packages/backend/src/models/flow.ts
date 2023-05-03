@@ -9,7 +9,6 @@ import Base from './base';
 import Step from './step';
 import User from './user';
 import Execution from './execution';
-import Telemetry from '../helpers/telemetry';
 
 class Flow extends Base {
   id!: string;
@@ -137,16 +136,6 @@ class Flow extends Base {
     }
 
     return;
-  }
-
-  async $afterInsert(queryContext: QueryContext) {
-    await super.$afterInsert(queryContext);
-    Telemetry.flowCreated(this);
-  }
-
-  async $afterUpdate(opt: ModelOptions, queryContext: QueryContext) {
-    await super.$afterUpdate(opt, queryContext);
-    Telemetry.flowUpdated(this);
   }
 
   async getTriggerStep(): Promise<Step> {

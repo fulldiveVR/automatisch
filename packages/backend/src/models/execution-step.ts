@@ -1,10 +1,7 @@
-import type { QueryContext } from 'objection';
 import { IJSONObject } from '@automatisch/types';
-import appConfig from '../config/app';
 import Base from './base';
 import Execution from './execution';
 import Step from './step';
-import Telemetry from '../helpers/telemetry';
 
 class ExecutionStep extends Base {
   id!: string;
@@ -55,11 +52,6 @@ class ExecutionStep extends Base {
 
   get isFailed() {
     return this.status === 'failure';
-  }
-
-  async $afterInsert(queryContext: QueryContext) {
-    await super.$afterInsert(queryContext);
-    Telemetry.executionStepCreated(this);
   }
 }
 
