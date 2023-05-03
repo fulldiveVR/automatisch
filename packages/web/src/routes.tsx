@@ -8,14 +8,8 @@ import Execution from 'pages/Execution';
 import Flows from 'pages/Flows';
 import Flow from 'pages/Flow';
 import Auth from 'pages/Auth';
-import Login from 'pages/Login';
-import SignUp from 'pages/SignUp/index.ee';
-import ForgotPassword from 'pages/ForgotPassword/index.ee';
-import ResetPassword from 'pages/ResetPassword/index.ee';
 import EditorRoutes from 'pages/Editor/routes';
 import * as URLS from 'config/urls';
-import settingsRoutes from './settingsRoutes';
-import Notifications from 'pages/Notifications';
 
 export default (
   <Routes>
@@ -76,15 +70,6 @@ export default (
     <Route path={`${URLS.EDITOR}/*`} element={<EditorRoutes />} />
 
     <Route
-      path={URLS.LOGIN}
-      element={
-        <PublicLayout>
-          <Login />
-        </PublicLayout>
-      }
-    />
-
-    <Route
       path={URLS.AUTH}
       element={
         <PublicLayout>
@@ -93,45 +78,7 @@ export default (
       }
     />
 
-    <Route
-      path={URLS.SIGNUP}
-      element={
-        <PublicLayout>
-          <SignUp />
-        </PublicLayout>
-      }
-    />
-
-    <Route
-      path={URLS.FORGOT_PASSWORD}
-      element={
-        <PublicLayout>
-          <ForgotPassword />
-        </PublicLayout>
-      }
-    />
-
-    <Route
-      path={URLS.RESET_PASSWORD}
-      element={
-        <PublicLayout>
-          <ResetPassword />
-        </PublicLayout>
-      }
-    />
-
-    <Route
-      path={URLS.UPDATES}
-      element={
-        <Layout>
-          <Notifications />
-        </Layout>
-      }
-    />
-
     <Route path="/" element={<Navigate to={URLS.FLOWS} replace />} />
-
-    <Route path={`${URLS.SETTINGS}`}>{settingsRoutes}</Route>
 
     <Route
       element={
