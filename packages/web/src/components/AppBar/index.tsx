@@ -8,10 +8,8 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 import * as URLS from 'config/urls';
-import AccountDropdownMenu from 'components/AccountDropdownMenu';
 import TrialStatusBadge from 'components/TrialStatusBadge/index.ee';
 import Container from 'components/Container';
 import { FormattedMessage } from 'react-intl';
@@ -24,26 +22,11 @@ type AppBarProps = {
   maxWidth?: ContainerProps['maxWidth'];
 };
 
-const accountMenuId = 'account-menu';
-
 export default function AppBar(props: AppBarProps): React.ReactElement {
   const { drawerOpen, onDrawerOpen, onDrawerClose, maxWidth = false } = props;
 
   const theme = useTheme();
   const matchSmallScreens = useMediaQuery(theme.breakpoints.down('md'));
-
-  const [accountMenuAnchorElement, setAccountMenuAnchorElement] =
-    React.useState<null | HTMLElement>(null);
-
-  const isMenuOpen = Boolean(accountMenuAnchorElement);
-
-  const handleAccountMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAccountMenuAnchorElement(event.currentTarget);
-  };
-
-  const handleAccountMenuClose = () => {
-    setAccountMenuAnchorElement(null);
-  };
 
   return (
     <MuiAppBar>
@@ -69,26 +52,8 @@ export default function AppBar(props: AppBarProps): React.ReactElement {
           </div>
 
           <TrialStatusBadge />
-
-          <IconButton
-            size="large"
-            color="inherit"
-            onClick={handleAccountMenuOpen}
-            aria-controls={accountMenuId}
-            aria-label="open profile menu"
-            data-test="profile-menu-button"
-          >
-            <AccountCircleIcon />
-          </IconButton>
         </Toolbar>
       </Container>
-
-      <AccountDropdownMenu
-        anchorEl={accountMenuAnchorElement}
-        id={accountMenuId}
-        open={isMenuOpen}
-        onClose={handleAccountMenuClose}
-      />
     </MuiAppBar>
   );
 }
