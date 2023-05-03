@@ -14,7 +14,6 @@ import PageTitle from 'components/PageTitle';
 import Container from 'components/Container';
 import Form from 'components/Form';
 import TextField from 'components/TextField';
-import DeleteAccountDialog from 'components/DeleteAccountDialog/index.ee';
 import { UPDATE_USER } from 'graphql/mutations/update-user';
 import useFormatMessage from 'hooks/useFormatMessage';
 import useCurrentUser from 'hooks/useCurrentUser';
@@ -23,7 +22,7 @@ type TMutationInput = {
   fullName: string;
   email: string;
   password?: string;
-}
+};
 
 const validationSchema = yup
   .object({
@@ -43,7 +42,8 @@ const StyledForm = styled(Form)`
 `;
 
 function ProfileSettings() {
-  const [showDeleteAccountConfirmation, setShowDeleteAccountConfirmation] = React.useState(false);
+  const [showDeleteAccountConfirmation, setShowDeleteAccountConfirmation] =
+    React.useState(false);
   const { enqueueSnackbar } = useSnackbar();
   const currentUser = useCurrentUser();
   const formatMessage = useFormatMessage();
@@ -55,7 +55,7 @@ function ProfileSettings() {
     const mutationInput: TMutationInput = {
       fullName,
       email,
-    }
+    };
 
     if (password) {
       mutationInput.password = password;
@@ -80,7 +80,6 @@ function ProfileSettings() {
     });
   };
 
-
   return (
     <Container sx={{ py: 3, display: 'flex', justifyContent: 'center' }}>
       <Grid container item xs={12} sm={9} md={8} lg={6}>
@@ -89,8 +88,12 @@ function ProfileSettings() {
         </Grid>
 
         <Grid item xs={12} justifyContent="flex-end">
-        <StyledForm
-            defaultValues={{ ...currentUser, password: '', confirmPassword: '' }}
+          <StyledForm
+            defaultValues={{
+              ...currentUser,
+              password: '',
+              confirmPassword: '',
+            }}
             onSubmit={handleProfileSettingsUpdate}
             resolver={yupResolver(validationSchema)}
             mode="onChange"
@@ -109,7 +112,7 @@ function ProfileSettings() {
                   fullWidth
                   name="fullName"
                   label={formatMessage('profileSettings.fullName')}
-                  margin='dense'
+                  margin="dense"
                   error={touchedFields.fullName && !!errors?.fullName}
                   helperText={errors?.fullName?.message || ' '}
                 />
@@ -118,7 +121,7 @@ function ProfileSettings() {
                   fullWidth
                   name="email"
                   label={formatMessage('profileSettings.email')}
-                  margin='dense'
+                  margin="dense"
                   error={touchedFields.email && !!errors?.email}
                   helperText={errors?.email?.message || ' '}
                 />
@@ -127,7 +130,7 @@ function ProfileSettings() {
                   fullWidth
                   name="password"
                   label={formatMessage('profileSettings.newPassword')}
-                  margin='dense'
+                  margin="dense"
                   type="password"
                   error={touchedFields.password && !!errors?.password}
                   helperText={
@@ -139,7 +142,7 @@ function ProfileSettings() {
                   fullWidth
                   name="confirmPassword"
                   label={formatMessage('profileSettings.confirmNewPassword')}
-                  margin='dense'
+                  margin="dense"
                   type="password"
                   error={
                     touchedFields.confirmPassword && !!errors?.confirmPassword
@@ -163,9 +166,11 @@ function ProfileSettings() {
           />
         </Grid>
 
-        <Grid item xs={12} justifyContent="flex-end" sx={{pt: 5 }}>
+        <Grid item xs={12} justifyContent="flex-end" sx={{ pt: 5 }}>
           <Alert variant="outlined" severity="error" sx={{ fontWeight: 500 }}>
-            <AlertTitle sx={{ fontWeight: 700 }}>{formatMessage('profileSettings.deleteMyAccount')}</AlertTitle>
+            <AlertTitle sx={{ fontWeight: 700 }}>
+              {formatMessage('profileSettings.deleteMyAccount')}
+            </AlertTitle>
 
             <Typography variant="body1" gutterBottom>
               {formatMessage('profileSettings.deleteAccountSubtitle')}
@@ -188,12 +193,6 @@ function ProfileSettings() {
             >
               {formatMessage('profileSettings.deleteAccount')}
             </Button>
-
-            {showDeleteAccountConfirmation && (
-              <DeleteAccountDialog
-                onClose={() => setShowDeleteAccountConfirmation(false)}
-              />
-            )}
           </Alert>
         </Grid>
       </Grid>

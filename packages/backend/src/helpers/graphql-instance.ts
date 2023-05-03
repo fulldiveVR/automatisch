@@ -7,7 +7,6 @@ import { applyMiddleware } from 'graphql-middleware';
 
 import logger from '../helpers/logger';
 import authentication from '../helpers/authentication';
-import * as Sentry from '../helpers/sentry.ee';
 import resolvers from '../graphql/resolvers';
 import HttpError from '../errors/http';
 
@@ -29,15 +28,6 @@ const graphQLInstance = graphqlHTTP({
     if (error.originalError instanceof HttpError) {
       delete (error.originalError as HttpError).response;
     }
-
-    Sentry.captureException(error, {
-      tags: { graphql: true },
-      extra: {
-        source: error.source?.body,
-        positions: error.positions,
-        path: error.path
-      }
-    })
 
     return error;
   },

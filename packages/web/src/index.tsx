@@ -7,7 +7,6 @@ import SnackbarProvider from 'components/SnackbarProvider';
 import { AuthenticationProvider } from 'contexts/Authentication';
 import { AutomatischInfoProvider } from 'contexts/AutomatischInfo';
 import Router from 'components/Router';
-import LiveChat from 'components/LiveChat/index.ee';
 import routes from 'routes';
 import reportWebVitals from './reportWebVitals';
 
@@ -18,11 +17,7 @@ ReactDOM.render(
         <ApolloProvider>
           <AutomatischInfoProvider>
             <IntlProvider>
-              <ThemeProvider>
-                {routes}
-
-                <LiveChat />
-              </ThemeProvider>
+              <ThemeProvider>{routes}</ThemeProvider>
             </IntlProvider>
           </AutomatischInfoProvider>
         </ApolloProvider>

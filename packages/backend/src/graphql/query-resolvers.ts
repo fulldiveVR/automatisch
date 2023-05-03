@@ -11,13 +11,7 @@ import getExecutionSteps from './queries/get-execution-steps';
 import getDynamicData from './queries/get-dynamic-data';
 import getDynamicFields from './queries/get-dynamic-fields';
 import getCurrentUser from './queries/get-current-user';
-import getPaymentPlans from './queries/get-payment-plans.ee';
-import getPaddleInfo from './queries/get-paddle-info.ee';
-import getBillingAndUsage from './queries/get-billing-and-usage.ee';
-import getInvoices from './queries/get-invoices.ee';
 import getAutomatischInfo from './queries/get-automatisch-info';
-import getTrialStatus from './queries/get-trial-status.ee';
-import getSubscriptionStatus from './queries/get-subscription-status.ee';
 import healthcheck from './queries/healthcheck';
 
 const queryResolvers = {
@@ -34,13 +28,7 @@ const queryResolvers = {
   getDynamicData,
   getDynamicFields,
   getCurrentUser,
-  getPaymentPlans,
-  getPaddleInfo,
-  getBillingAndUsage,
-  getInvoices,
   getAutomatischInfo,
-  getTrialStatus,
-  getSubscriptionStatus,
   healthcheck,
 };
 

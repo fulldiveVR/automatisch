@@ -4,13 +4,10 @@ import crypto from 'crypto';
 import { DateTime } from 'luxon';
 import appConfig from '../config/app';
 import Base from './base';
-import ExtendedQueryBuilder from './query-builder';
 import Connection from './connection';
 import Flow from './flow';
 import Step from './step';
 import Execution from './execution';
-import UsageData from './usage-data.ee';
-import Subscription from './subscription.ee';
 
 class User extends Base {
   id!: string;
@@ -26,10 +23,6 @@ class User extends Base {
   flows?: Flow[];
   steps?: Step[];
   executions?: Execution[];
-  usageData?: UsageData[];
-  currentUsageData?: UsageData;
-  subscriptions?: Subscription[];
-  currentSubscription?: Subscription;
 
   static tableName = 'users';
 
@@ -87,44 +80,6 @@ class User extends Base {
         to: 'executions.flow_id',
       },
     },
-    usageData: {
-      relation: Base.HasManyRelation,
-      modelClass: UsageData,
-      join: {
-        from: 'usage_data.user_id',
-        to: 'users.id',
-      },
-    },
-    currentUsageData: {
-      relation: Base.HasOneRelation,
-      modelClass: UsageData,
-      join: {
-        from: 'usage_data.user_id',
-        to: 'users.id',
-      },
-      filter(builder: ExtendedQueryBuilder<UsageData>) {
-        builder.orderBy('created_at', 'desc').first();
-      },
-    },
-    subscriptions: {
-      relation: Base.HasManyRelation,
-      modelClass: Subscription,
-      join: {
-        from: 'subscriptions.user_id',
-        to: 'users.id',
-      },
-    },
-    currentSubscription: {
-      relation: Base.HasOneRelation,
-      modelClass: Subscription,
-      join: {
-        from: 'subscriptions.user_id',
-        to: 'users.id',
-      },
-      filter(builder: ExtendedQueryBuilder<Subscription>) {
-        builder.orderBy('created_at', 'desc').first();
-      },
-    },
   });
 
   login(password: string) {
@@ -175,10 +130,6 @@ class User extends Base {
       return true;
     }
 
-    if ((await this.hasActiveSubscription()) && (await this.withinLimits())) {
-      return true;
-    }
-
     return false;
   }
 
@@ -191,34 +142,12 @@ class User extends Base {
       return false;
     }
 
-    if (await this.hasActiveSubscription()) {
-      return false;
-    }
-
     const expiryDate = DateTime.fromJSDate(
       this.trialExpiryDate as unknown as Date
     );
     const now = DateTime.now();
 
     return now < expiryDate;
-  }
-
-  async hasActiveSubscription() {
-    if (!appConfig.isCloud) {
-      return false;
-    }
-
-    const subscription = await this.$relatedQuery('currentSubscription');
-
-    return subscription?.isValid;
-  }
-
-  async withinLimits() {
-    const currentSubscription = await this.$relatedQuery('currentSubscription');
-    const plan = currentSubscription.plan;
-    const currentUsageData = await this.$relatedQuery('currentUsageData');
-
-    return currentUsageData.consumedTaskCount < plan.quota;
   }
 
   async $beforeInsert(queryContext: QueryContext) {
