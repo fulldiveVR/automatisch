@@ -34,13 +34,7 @@ type Query {
     parameters: JSONObject
   ): [SubstepArgument]
   getCurrentUser: User
-  getPaymentPlans: [PaymentPlan]
-  getPaddleInfo: GetPaddleInfo
-  getBillingAndUsage: GetBillingAndUsage
-  getInvoices: [Invoice]
   getAutomatischInfo: GetAutomatischInfo
-  getTrialStatus: GetTrialStatus
-  getSubscriptionStatus: GetSubscriptionStatus
   healthcheck: AppHealth
 }
 
@@ -59,11 +53,7 @@ type Mutation {
   createStep(input: CreateStepInput): Step
   updateStep(input: UpdateStepInput): Step
   deleteStep(input: DeleteStepInput): Step
-  createUser(input: CreateUserInput): User
-  deleteUser: Boolean
   updateUser(input: UpdateUserInput): User
-  forgotPassword(input: ForgotPasswordInput): Boolean
-  resetPassword(input: ResetPasswordInput): Boolean
   login(input: LoginInput): Auth
   auth(input: AuthInput): Auth
 }
@@ -351,25 +341,10 @@ input DeleteStepInput {
   id: String!
 }
 
-input CreateUserInput {
-  fullName: String!
-  email: String!
-  password: String!
-}
-
 input UpdateUserInput {
   email: String
   password: String
   fullName: String
-}
-
-input ForgotPasswordInput {
-  email: String!
-}
-
-input ResetPasswordInput {
-  token: String!
-  password: String!
 }
 
 input LoginInput {
@@ -488,19 +463,6 @@ type GetAutomatischInfo {
   isCloud: Boolean
 }
 
-type GetTrialStatus {
-  expireAt: String
-}
-
-type GetSubscriptionStatus {
-  cancellationEffectiveDate: String
-}
-
-type GetBillingAndUsage {
-  subscription: Subscription
-  usage: Usage
-}
-
 type MonthlyQuota {
   title: String
   action: BillingCardAction
@@ -527,30 +489,6 @@ type Subscription {
   monthlyQuota: MonthlyQuota
   nextBillAmount: NextBillAmount
   nextBillDate: NextBillDate
-}
-
-type Usage {
-  task: Int
-}
-
-type GetPaddleInfo {
-  sandbox: Boolean
-  vendorId: Int
-}
-
-type Invoice {
-  id: Int
-  amount: Float
-  currency: String
-  payout_date: String
-  receipt_url: String
-}
-
-type PaymentPlan {
-  name: String
-  limit: String
-  price: String
-  productId: String
 }
 
 schema {

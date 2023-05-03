@@ -42,9 +42,6 @@ const authentication = shield(
       '*': isAuthenticated,
       login: allow,
       auth: allow,
-      createUser: allow,
-      forgotPassword: allow,
-      resetPassword: allow,
     },
   },
   {

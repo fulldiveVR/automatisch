@@ -1,6 +1,5 @@
 import { Worker } from 'bullmq';
 
-import * as Sentry from '../helpers/sentry.ee';
 import redisConfig from '../config/redis';
 import logger from '../helpers/logger';
 import triggerQueue from '../queues/trigger';
@@ -73,12 +72,6 @@ worker.on('failed', (job, err) => {
   `;
 
   logger.error(errorMessage);
-
-  Sentry.captureException(err, {
-    extra: {
-      jobId: job.id,
-    },
-  });
 });
 
 process.on('SIGTERM', async () => {

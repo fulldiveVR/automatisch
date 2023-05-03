@@ -60,18 +60,6 @@ class ExecutionStep extends Base {
   async $afterInsert(queryContext: QueryContext) {
     await super.$afterInsert(queryContext);
     Telemetry.executionStepCreated(this);
-
-    if (appConfig.isCloud) {
-      const execution = await this.$relatedQuery('execution');
-
-      if (!execution.testRun && !this.isFailed) {
-        const flow = await execution.$relatedQuery('flow');
-        const user = await flow.$relatedQuery('user');
-        const usageData = await user.$relatedQuery('currentUsageData');
-
-        await usageData.increaseConsumedTaskCountByOne();
-      }
-    }
   }
 }
 

@@ -10,7 +10,6 @@ import MenuIcon from '@mui/icons-material/Menu';
 import MenuOpenIcon from '@mui/icons-material/MenuOpen';
 
 import * as URLS from 'config/urls';
-import TrialStatusBadge from 'components/TrialStatusBadge/index.ee';
 import Container from 'components/Container';
 import { FormattedMessage } from 'react-intl';
 import { Link } from './style';
@@ -50,8 +49,6 @@ export default function AppBar(props: AppBarProps): React.ReactElement {
               </Typography>
             </Link>
           </div>
-
-          <TrialStatusBadge />
         </Toolbar>
       </Container>
     </MuiAppBar>
