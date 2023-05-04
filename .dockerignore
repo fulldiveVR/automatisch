@@ -1,7 +1,9 @@
 **/node_modules/
 **/dist/
+**/build/
 **/logs/
 **/.devcontainer
+**/.git
 **/.github
 **/.vscode
 packages/docs
