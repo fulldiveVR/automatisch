@@ -14,7 +14,7 @@ export default {
       placeholder: null,
       description:
         'When asked to input an OAuth callback or redirect URL in Github OAuth, enter the URL above.',
-      docUrl: 'https://automatisch.io/docs/github#oauth-redirect-url',
+      docUrl: '{DOCS_URL}/github#oauth-redirect-url',
       clickToCopy: true,
     },
     {
@@ -26,7 +26,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/github#client-id',
+      docUrl: '{DOCS_URL}/github#client-id',
       clickToCopy: false,
     },
     {
@@ -38,7 +38,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/github#client-secret',
+      docUrl: '{DOCS_URL}/github#client-secret',
       clickToCopy: false,
     },
   ],

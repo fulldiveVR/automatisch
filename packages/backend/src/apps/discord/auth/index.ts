@@ -14,7 +14,7 @@ export default {
       placeholder: null,
       description:
         'When asked to input an OAuth callback or redirect URL in Discord OAuth, enter the URL above.',
-      docUrl: 'https://automatisch.io/docs/discord#oauth-redirect-url',
+      docUrl: '{DOCS_URL}/discord#oauth-redirect-url',
       clickToCopy: true,
     },
     {
@@ -26,7 +26,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/discord#consumer-key',
+      docUrl: '{DOCS_URL}/discord#consumer-key',
       clickToCopy: false,
     },
     {
@@ -38,7 +38,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/discord#consumer-secret',
+      docUrl: '{DOCS_URL}/discord#consumer-secret',
       clickToCopy: false,
     },
     {
@@ -50,7 +50,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/discord#bot-token',
+      docUrl: '{DOCS_URL}/discord#bot-token',
       clickToCopy: false,
     },
   ],

@@ -14,7 +14,7 @@ export default {
       placeholder: null,
       description:
         'When asked to input an OAuth callback or redirect URL in Flickr OAuth, enter the URL above.',
-      docUrl: 'https://automatisch.io/docs/flickr#oauth-redirect-url',
+      docUrl: '{DOCS_URL}/flickr#oauth-redirect-url',
       clickToCopy: true,
     },
     {
@@ -26,7 +26,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/flickr#consumer-key',
+      docUrl: '{DOCS_URL}/flickr#consumer-key',
       clickToCopy: false,
     },
     {
@@ -38,7 +38,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/flickr#consumer-secret',
+      docUrl: '{DOCS_URL}/flickr#consumer-secret',
       clickToCopy: false,
     },
   ],

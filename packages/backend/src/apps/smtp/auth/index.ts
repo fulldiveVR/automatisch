@@ -12,7 +12,7 @@ export default {
       value: null,
       placeholder: null,
       description: 'The host information Automatisch will connect to.',
-      docUrl: 'https://automatisch.io/docs/smtp#host',
+      docUrl: '{DOCS_URL}/smtp#host',
       clickToCopy: false,
     },
     {
@@ -24,7 +24,7 @@ export default {
       value: null,
       placeholder: null,
       description: 'Your SMTP login credentials.',
-      docUrl: 'https://automatisch.io/docs/smtp#username',
+      docUrl: '{DOCS_URL}/smtp#username',
       clickToCopy: false,
     },
     {
@@ -36,7 +36,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/smtp#password',
+      docUrl: '{DOCS_URL}/smtp#password',
       clickToCopy: false,
     },
     {
@@ -48,7 +48,7 @@ export default {
       value: false,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/smtp#use-tls',
+      docUrl: '{DOCS_URL}/smtp#use-tls',
       clickToCopy: false,
       options: [
         {
@@ -70,7 +70,7 @@ export default {
       value: '25',
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/smtp#port',
+      docUrl: '{DOCS_URL}/smtp#port',
       clickToCopy: false,
     },
     {
@@ -82,7 +82,7 @@ export default {
       value: null,
       placeholder: null,
       description: null,
-      docUrl: 'https://automatisch.io/docs/smtp#from-email',
+      docUrl: '{DOCS_URL}/smtp#from-email',
       clickToCopy: false,
     },
   ],

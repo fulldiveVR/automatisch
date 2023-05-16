@@ -48,6 +48,7 @@ type AppConfig = {
   licenseKey: string;
   sentryDsn: string;
   aiNewsApiHost: string;
+  docsBaseUrl: string;
 };
 
 const host = process.env.HOST || 'localhost';
@@ -73,6 +74,8 @@ if (process.env.WEB_APP_URL) {
 
 let webhookUrl = new URL(process.env.WEBHOOK_URL || apiUrl).toString();
 webhookUrl = webhookUrl.substring(0, webhookUrl.length - 1);
+
+const docsUrl = `${webAppUrl}/docs`;
 
 const appEnv = process.env.APP_ENV || 'development';
 
@@ -123,6 +126,7 @@ const appConfig: AppConfig = {
   licenseKey: process.env.LICENSE_KEY,
   sentryDsn: process.env.SENTRY_DSN,
   aiNewsApiHost: process.env.AI_NEWS_API_HOST,
+  docsBaseUrl: docsUrl,
 };
 
 if (!appConfig.encryptionKey) {
