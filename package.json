@@ -3,7 +3,7 @@
   "license": "See LICENSE file",
   "private": true,
   "scripts": {
-    "start": "lerna run --stream --parallel --scope=@*/{web,backend} dev",
+    "start": "lerna run --stream --parallel --scope=@*/{web,docs,backend} dev",
     "start:web": "lerna run --stream --scope=@*/web dev",
     "start:backend": "lerna run --stream --scope=@*/backend dev",
     "lint": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli} lint",
@@ -18,6 +18,7 @@
       "**/babel-loader",
       "**/webpack",
       "**/@automatisch/web",
+      "**/@automatisch/docs",
       "**/@automatisch/types",
       "**/ajv"
     ]

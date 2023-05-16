@@ -3,7 +3,7 @@ import { createWriteStream } from 'fs';
 import { resolve } from 'path';
 import { SitemapStream } from 'sitemap';
 
-const BASE = process.env.BASE_URL || '/';
+const BASE = process.env.BASE_URL || '/docs';
 
 const links = [];
 const PROD_BASE_URL = 'https://automatisch.io/docs';

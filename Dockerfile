@@ -10,7 +10,7 @@ COPY . ./
 
 RUN yarn
 RUN yarn lerna bootstrap
-RUN yarn lerna run --scope=@*/{web,backend,cli} build
+RUN yarn lerna run --scope=@*/{web,docs,backend,cli} build
 
 COPY ./docker/entrypoint-cloud.sh /entrypoint-cloud.sh
 
