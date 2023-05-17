@@ -22,7 +22,7 @@ services:
       - POSTGRES_DATABASE=automatisch
       - POSTGRES_USERNAME=automatisch_user
       - POSTGRES_PASSWORD=automatisch_password
-      - AI_NEWS_API_HOST=https://ai-news-api.fdvr.co
+      - WIZE_API_HOST=https://ai-news-api.fdvr.co
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
       - APP_SECRET_KEY
@@ -40,7 +40,7 @@ services:
       - POSTGRES_DATABASE=automatisch
       - POSTGRES_USERNAME=automatisch_user
       - POSTGRES_PASSWORD=automatisch_password
-      - AI_NEWS_API_HOST=https://ai-news-api.fdvr.co
+      - WIZE_API_HOST=https://ai-news-api.fdvr.co
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
       - APP_SECRET_KEY

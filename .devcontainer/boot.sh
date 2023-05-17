@@ -20,7 +20,8 @@ ENCRYPTION_KEY=sample_encryption_key
 WEBHOOK_SECRET_KEY=sample_webhook_secret_key
 APP_SECRET_KEY=sample_app_secret_key
 REDIS_HOST=redis
-SERVE_WEB_APP_SEPARATELY=true" >> .env
+SERVE_WEB_APP_SEPARATELY=true
+WIZE_API_HOST=https://ai-news-api.fdvr.co" >> .env
 cd $CURRENT_DIR
 
 echo "Configuring web environment variables..."
