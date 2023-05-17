@@ -75,7 +75,7 @@ if (process.env.WEB_APP_URL) {
 let webhookUrl = new URL(process.env.WEBHOOK_URL || apiUrl).toString();
 webhookUrl = webhookUrl.substring(0, webhookUrl.length - 1);
 
-const docsUrl = `${webAppUrl}/docs`;
+const docsUrl = process.env.DOCS_BASE_URL || `${webAppUrl}/docs`;
 
 const appEnv = process.env.APP_ENV || 'development';
 

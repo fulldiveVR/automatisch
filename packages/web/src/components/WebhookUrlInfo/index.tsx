@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import Typography from '@mui/material/Typography';
 import type { AlertProps } from '@mui/material/Alert';
 
+import appConfig from 'config/app';
 import { generateExternalLink } from '../../helpers/translation-values';
 import { WEBHOOK_DOCS } from '../../config/urls';
 import TextField from '../TextField';
@@ -34,7 +35,9 @@ function WebhookUrlInfo(props: WebhookUrlInfoProps): React.ReactElement {
         helperText={
           <FormattedMessage
             id="webhookUrlInfo.helperText"
-            values={{ link: generateExternalLink(WEBHOOK_DOCS) }}
+            values={{
+              link: generateExternalLink(WEBHOOK_DOCS(appConfig.docsUrl)),
+            }}
           />
         }
       />

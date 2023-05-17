@@ -21,7 +21,9 @@ WEBHOOK_SECRET_KEY=sample_webhook_secret_key
 APP_SECRET_KEY=sample_app_secret_key
 REDIS_HOST=redis
 SERVE_WEB_APP_SEPARATELY=true
-WIZE_API_HOST=https://ai-news-api.fdvr.co" >> .env
+WIZE_API_HOST=https://ai-news-api.fdvr.co
+DOCS_BASE_URL=http://localhost:3002
+" >> .env
 cd $CURRENT_DIR
 
 echo "Configuring web environment variables..."
@@ -31,6 +33,15 @@ echo "
 PORT=$WEB_PORT
 REACT_APP_GRAPHQL_URL=http://localhost:$BACKEND_PORT/graphql
 REACT_APP_NOTIFICATIONS_URL=https://notifications.automatisch.io
+REACT_APP_DOCS_URL=http://localhost:3002
+" >> .env
+cd $CURRENT_DIR
+
+echo "Configuring docs environment variables..."
+cd packages/docs
+rm -rf .env
+echo "
+BASE_URL=/
 " >> .env
 cd $CURRENT_DIR
 
