@@ -4,6 +4,7 @@ import { useFormContext } from 'react-hook-form';
 import set from 'lodash/set';
 import type { UseFormReturn } from 'react-hook-form';
 import isEqual from 'lodash/isEqual';
+import omit from 'lodash/omit';
 import type {
   IField,
   IFieldDropdownSource,

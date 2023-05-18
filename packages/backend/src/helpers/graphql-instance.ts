@@ -1,10 +1,11 @@
-import { join } from 'path';
+import { join } from 'node:path';
 import { graphqlHTTP } from 'express-graphql';
 import { loadSchemaSync } from '@graphql-tools/load';
 import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader';
 import { addResolversToSchema } from '@graphql-tools/schema';
 import { applyMiddleware } from 'graphql-middleware';
 
+import appConfig from '../config/app';
 import logger from '../helpers/logger';
 import authentication from '../helpers/authentication';
 import resolvers from '../graphql/resolvers';
@@ -21,7 +22,7 @@ const schemaWithResolvers = addResolversToSchema({
 
 const graphQLInstance = graphqlHTTP({
   schema: applyMiddleware(schemaWithResolvers, authentication),
-  graphiql: true,
+  graphiql: appConfig.isDev,
   customFormatErrorFn: (error) => {
     logger.error(error.path + ' : ' + error.message + '\n' + error.stack);
 

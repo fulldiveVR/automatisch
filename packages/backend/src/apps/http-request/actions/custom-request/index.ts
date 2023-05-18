@@ -1,3 +1,4 @@
+import type { AxiosRequestConfig } from 'axios';
 import defineAction from '../../../../helpers/define-action';
 
 type TMethod = 'GET' | 'POST' | 'PATCH' | 'PUT' | 'DELETE';
@@ -8,6 +9,23 @@ type THeaderEntry = {
 }
 
 type THeaderEntries = THeaderEntry[];
+
+function isPossiblyTextBased(contentType: string) {
+  if (!contentType) return false;
+
+  return contentType.startsWith('application/json')
+    || contentType.startsWith('text/');
+}
+
+function throwIfFileSizeExceedsLimit(contentLength: string) {
+  const maxFileSize = 25 * 1024 * 1024; // 25MB
+
+  if (Number(contentLength) > maxFileSize) {
+    throw new Error(
+      `Response is too large. Maximum size is 25MB. Actual size is ${contentLength}`
+    );
+  }
+}
 
 export default defineAction({
   name: 'Custom Request',
@@ -81,29 +99,51 @@ export default defineAction({
     const data = $.step.parameters.data as string;
     const url = $.step.parameters.url as string;
     const headers = $.step.parameters.headers as THeaderEntries;
-    const maxFileSize = 25 * 1024 * 1024; // 25MB
 
-    const headersObject = headers.reduce((result, entry) => ({ ...result, [entry.key]: entry.value }), {})
+    const headersObject: Record<string, string> = headers.reduce((result, entry) => {
+      const key = entry.key?.toLowerCase();
+      const value = entry.value;
 
-    const metadataResponse = await $.http.head(url, { headers: headersObject });
+      if (key && value) {
+        return {
+          ...result,
+          [entry.key?.toLowerCase()]: entry.value
+        }
+      }
 
-    if (Number(metadataResponse.headers['content-length']) > maxFileSize) {
-      throw new Error(
-        `Response is too large. Maximum size is 25MB. Actual size is ${metadataResponse.headers['content-length']}`
-      );
-    }
+      return result;
+    }, {});
 
-    const response = await $.http.request({
+    let contentType = headersObject['content-type'];
+
+    // in case HEAD request is not supported by the URL
+    try {
+      const metadataResponse = await $.http.head(url, { headers: headersObject });
+      contentType = metadataResponse.headers['content-type'];
+
+      throwIfFileSizeExceedsLimit(metadataResponse.headers['content-length']);
+      // eslint-disable-next-line no-empty
+    } catch { }
+
+    const requestData: AxiosRequestConfig = {
       url,
       method,
       data,
       headers: headersObject,
-    });
+    };
+
+    if (!isPossiblyTextBased(contentType)) {
+      requestData.responseType = 'arraybuffer';
+    }
+
+    const response = await $.http.request(requestData);
+
+    throwIfFileSizeExceedsLimit(response.headers['content-length']);
 
     let responseData = response.data;
 
-    if (typeof response.data === 'string') {
-      responseData = response.data.replaceAll('\u0000', '');
+    if (!isPossiblyTextBased(contentType)) {
+      responseData = Buffer.from(responseData as string).toString('base64');
     }
 
     $.setActionItem({ raw: { data: responseData } });

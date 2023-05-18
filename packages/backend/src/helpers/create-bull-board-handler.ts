@@ -9,22 +9,27 @@ import appConfig from '../config/app';
 
 const serverAdapter = new ExpressAdapter();
 
+const queues = [
+  new BullMQAdapter(flowQueue),
+  new BullMQAdapter(triggerQueue),
+  new BullMQAdapter(actionQueue),
+  new BullMQAdapter(emailQueue),
+];
+
+const shouldEnableBullDashboard = () => {
+  return (
+    appConfig.enableBullMQDashboard &&
+    appConfig.bullMQDashboardUsername &&
+    appConfig.bullMQDashboardPassword
+  );
+};
+
 const createBullBoardHandler = async (serverAdapter: ExpressAdapter) => {
-  if (
-    !appConfig.enableBullMQDashboard ||
-    !appConfig.bullMQDashboardUsername ||
-    !appConfig.bullMQDashboardPassword
-  )
-    return;
+  if (!shouldEnableBullDashboard) return;
 
   createBullBoard({
-    queues: [
-      new BullMQAdapter(flowQueue),
-      new BullMQAdapter(triggerQueue),
-      new BullMQAdapter(actionQueue),
-      new BullMQAdapter(emailQueue),
-    ],
-    serverAdapter: serverAdapter,
+    queues,
+    serverAdapter,
   });
 };
 
