@@ -24,7 +24,7 @@ export default {
       value: null,
       placeholder: null,
       description: 'OpenAI API key of your account.',
-      docUrl: 'https://automatisch.io/docs/openai#api-key',
+      docUrl: '{DOCS_URL}/openai#api-key',
       clickToCopy: false,
     },
   ],

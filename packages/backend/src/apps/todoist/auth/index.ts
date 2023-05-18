@@ -14,7 +14,7 @@ export default {
       placeholder: null,
       description:
         'When asked to input an OAuth callback or redirect URL in Todoist OAuth, enter the URL above.',
-      docUrl: 'https://automatisch.io/docs/todoist#oauth-redirect-url',
+      docUrl: '{DOCS_URL}/todoist#oauth-redirect-url',
       clickToCopy: true,
     },
     {

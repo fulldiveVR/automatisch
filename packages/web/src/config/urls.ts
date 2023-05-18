@@ -73,5 +73,5 @@ export const SETTINGS_PLAN_UPGRADE = `${SETTINGS_BILLING_AND_USAGE}/${PLAN_UPGRA
 export const DASHBOARD = FLOWS;
 
 // External links
-export const WEBHOOK_DOCS =
-  'https://automatisch.io/docs/apps/webhooks/connection';
+export const WEBHOOK_DOCS = (docsUrl: string) =>
+  `${docsUrl}/apps/webhooks/connection`;

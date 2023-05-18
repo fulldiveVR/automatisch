@@ -8,6 +8,7 @@ import corsOptions from './config/cors-options';
 import morgan from './helpers/morgan';
 import appAssetsHandler from './helpers/app-assets-handler';
 import webUIHandler from './helpers/web-ui-handler';
+import docsHandler from './helpers/docs-handler';
 import errorHandler from './helpers/error-handler';
 import './config/orm';
 import {
@@ -46,6 +47,7 @@ app.use(
 app.use(cors(corsOptions));
 app.use('/', router);
 
+docsHandler(app);
 webUIHandler(app);
 
 // catch 404 and forward to error handler

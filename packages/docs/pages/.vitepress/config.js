@@ -2,8 +2,11 @@ import { defineConfig } from 'vitepress';
 import { createWriteStream } from 'fs';
 import { resolve } from 'path';
 import { SitemapStream } from 'sitemap';
+import * as dotenv from 'dotenv';
 
-const BASE = process.env.BASE_URL || '/';
+dotenv.config();
+
+const BASE = process.env.BASE_URL || '/docs';
 
 const links = [];
 const PROD_BASE_URL = 'https://automatisch.io/docs';
@@ -14,7 +17,6 @@ export default defineConfig({
   title: 'Automatisch Docs',
   description:
     'Build workflow automation without spending time and money. No code is required.',
-  cleanUrls: 'with-subfolders',
   ignoreDeadLinks: true,
   themeConfig: {
     siteTitle: 'Automatisch',
@@ -392,11 +394,6 @@ export default defineConfig({
     footer: {
       copyright: 'Copyright © 2022 Automatisch. All rights reserved.',
     },
-    algolia: {
-      appId: 'I7I8MRYC3P',
-      apiKey: '9325eb970bdd6a70b1e35528b39ed2fe',
-      indexName: 'automatisch',
-    },
   },
 
   async transformHead(ctx) {
@@ -422,15 +419,6 @@ export default defineConfig({
         {
           rel: 'canonical',
           href: canonicalUrl,
-        },
-      ],
-      [
-        'script',
-        {
-          defer: true,
-          'data-domain': 'automatisch.io',
-          'data-api': 'https://automatisch.io/data/api/event',
-          src: 'https://automatisch.io/data/js/script.js',
         },
       ],
     ];

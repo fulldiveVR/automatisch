@@ -4,6 +4,7 @@
   "license": "See LICENSE file",
   "description": "The open source Zapier alternative. Build workflow automation without spending time and money.",
   "private": true,
+  "main": "index.js",
   "scripts": {
     "dev": "vitepress dev pages --port 3002",
     "build": "vitepress build pages",
@@ -12,7 +13,8 @@
   "devDependencies": {
     "sitemap": "^7.1.1",
     "vitepress": "^1.0.0-alpha.21",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "dotenv": "^16.0.3"
   },
   "contributors": [
     {
