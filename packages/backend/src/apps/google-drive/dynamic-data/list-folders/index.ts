@@ -11,12 +11,19 @@ export default {
       data: [],
     };
 
-    const params = {
+    const params: Record<string, unknown> = {
       q: `mimeType='application/vnd.google-apps.folder'`,
       orderBy: 'createdTime desc',
       pageToken: undefined as unknown as string,
       pageSize: 1000,
+      driveId: $.step.parameters.driveId,
+      supportsAllDrives: true,
     };
+
+    if ($.step.parameters.driveId) {
+      params.includeItemsFromAllDrives = true;
+      params.corpora = 'drive';
+    }
 
     do {
       const { data } = await $.http.get(

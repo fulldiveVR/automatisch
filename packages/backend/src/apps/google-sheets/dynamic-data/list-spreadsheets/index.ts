@@ -16,8 +16,14 @@ export default {
       pageSize: 100,
       pageToken: undefined as unknown as string,
       orderBy: 'createdTime desc',
-      driveId: $.step.parameters.driveId
+      driveId: $.step.parameters.driveId,
+      supportsAllDrives: true,
     };
+
+    if ($.step.parameters.driveId) {
+      params.includeItemsFromAllDrives = true;
+      params.corpora = 'drive';
+    }
 
     do {
       const { data } = await $.http.get(
