@@ -2,6 +2,7 @@ node_modules
 dist
 build
 coverage
+bundles
 packages/docs/*
 packages/e2e-tests
 

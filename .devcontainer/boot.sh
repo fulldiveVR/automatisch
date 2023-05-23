@@ -45,6 +45,15 @@ BASE_URL=/
 " >> .env
 cd $CURRENT_DIR
 
+echo "Configuring workshop environment variables..."
+cd packages/workshop
+rm -rf .env
+echo "
+APP_ENV=development
+PORT=3003
+" >> .env
+cd $CURRENT_DIR
+
 echo "Installing and linking dependencies..."
 yarn
 yarn lerna bootstrap
@@ -53,5 +62,10 @@ echo "Migrating database..."
 cd packages/backend
 yarn db:migrate
 yarn db:seed:user
+
+echo "Compiling apps..."
+cd $CURRENT_DIR
+cd packages/workshop
+yarn compile:apps
 
 echo "Done!"
