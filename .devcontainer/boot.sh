@@ -21,8 +21,9 @@ WEBHOOK_SECRET_KEY=sample_webhook_secret_key
 APP_SECRET_KEY=sample_app_secret_key
 REDIS_HOST=redis
 SERVE_WEB_APP_SEPARATELY=true
-WIZE_API_HOST=https://ai-news-api.fdvr.co
+WIZE_API_HOST=https://dashboard-api.aiwayz.com
 DOCS_BASE_URL=http://localhost:3002
+WORKSHOP_API_URL=http://localhost:3003
 " >> .env
 cd $CURRENT_DIR
 

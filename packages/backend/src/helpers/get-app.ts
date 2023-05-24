@@ -1,5 +1,3 @@
-import path from 'node:path';
-import fs from 'node:fs';
 import {
   IAction,
   IApp,
@@ -10,21 +8,15 @@ import {
 import { omit, cloneDeep } from 'lodash';
 import addAuthenticationSteps from './add-authentication-steps';
 import addReconnectionSteps from './add-reconnection-steps';
-
-type TApps = Record<string, Promise<{ default: IApp }>>;
-const apps = fs
-  .readdirSync(path.resolve(__dirname, `../apps/`), { withFileTypes: true })
-  .reduce((apps, dirent) => {
-    if (!dirent.isDirectory()) return apps;
-
-    apps[dirent.name] = import(path.resolve(__dirname, '../apps', dirent.name));
-
-    return apps;
-  }, {} as TApps);
+import getApps from './get-apps';
 
 async function getAppDefaultExport(appKey: string) {
+  const apps = await getApps();
+
   if (!Object.prototype.hasOwnProperty.call(apps, appKey)) {
-    throw new Error(`An application with the "${appKey}" key couldn't be found.`);
+    throw new Error(
+      `An application with the "${appKey}" key couldn't be found.`
+    );
   }
 
   return (await apps[appKey]).default;

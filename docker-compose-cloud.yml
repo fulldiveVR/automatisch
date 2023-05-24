@@ -22,7 +22,7 @@ services:
       - POSTGRES_DATABASE=automatisch
       - POSTGRES_USERNAME=automatisch_user
       - POSTGRES_PASSWORD=automatisch_password
-      - WIZE_API_HOST=https://ai-news-api.fdvr.co
+      - WIZE_API_HOST=https://dashboard-api.aiwayz.com
       - DOCS_BASE_URL=http://localhost:3000/docs
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
@@ -41,7 +41,7 @@ services:
       - POSTGRES_DATABASE=automatisch
       - POSTGRES_USERNAME=automatisch_user
       - POSTGRES_PASSWORD=automatisch_password
-      - WIZE_API_HOST=https://ai-news-api.fdvr.co
+      - WIZE_API_HOST=https://dashboard-api.aiwayz.com
       - DOCS_BASE_URL=http://localhost:3000/docs
       - ENCRYPTION_KEY
       - WEBHOOK_SECRET_KEY
