@@ -15,7 +15,7 @@ const bundledIds = (): string[] => {
     .readdirSync(bundlesPath, {
       withFileTypes: true,
     })
-    .reduce((apps, dirent) => {
+    .reduce<string[]>((apps, dirent) => {
       if (dirent.isDirectory()) return apps;
 
       const app = dirent.name.replace('.bundle.js', '');

@@ -1,3 +1,4 @@
+import path from 'node:path';
 import { Router } from 'express';
 
 import { getAll } from '../services/apps';
@@ -12,7 +13,8 @@ router.get('/list', async (req, res) => {
 
 router.get('/:name.js', (req, res) => {
   const app = req.params.name;
-  res.sendFile(`${app}.bundle.js`, { root: './bundles' });
+  const root = path.resolve(__dirname, '../../bundles')
+  res.sendFile(`${app}.bundle.js`, { root });
 });
 
 export default router;

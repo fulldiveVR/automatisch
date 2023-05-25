@@ -2,11 +2,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import webpack from 'webpack';
 
+import logger from './helpers/logger';
 import appConfig from './config/app';
 
 const configure = (app: string): webpack.Configuration => {
   return {
-    entry: `./src/apps/${app}/index.ts`,
+    entry: path.resolve(__dirname, `./apps`, app),
     output: {
       path: path.resolve(__dirname, '../bundles'),
       filename: `${app}.bundle.js`,
@@ -32,7 +33,7 @@ const configure = (app: string): webpack.Configuration => {
   };
 };
 
-const compile = () => {
+export const compile = async (): Promise<void> => {
   const apps = fs
     .readdirSync(path.resolve(__dirname, `./apps/`), { withFileTypes: true })
     .reduce((apps, dirent) => {
@@ -45,15 +46,16 @@ const compile = () => {
 
   const options = apps.map(configure);
   const compiler = webpack(options);
-  compiler.run((err, stats) => {
-    const hasErrors = !!(stats.hasErrors() || err);
-    if (hasErrors) {
-      console.log('stats', stats);
-      console.error('err', err);
-    }
 
-    console.info(`Compilation complete${hasErrors ? ' with errors' : ''}`);
+  return new Promise<void>((resolve, reject) => {
+    compiler.run((err, stats) => {
+      const hasErrors = !!(stats.hasErrors() || err);
+      if (hasErrors) {
+        logger.info(stats.toString());
+        reject(err);
+      } else {
+        resolve();
+      }
+    });
   });
 };
-
-compile();

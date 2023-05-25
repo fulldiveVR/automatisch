@@ -34,6 +34,7 @@
   },
   "dependencies": {
     "@automatisch/backend": "^0.7.1",
+    "@automatisch/workshop": "^0.0.1",
     "@oclif/core": "^1",
     "@oclif/plugin-help": "^5",
     "@oclif/plugin-plugins": "^2.0.1",

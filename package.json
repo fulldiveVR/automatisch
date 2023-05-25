@@ -7,6 +7,7 @@
     "start:web": "lerna run --stream --scope=@*/web dev",
     "start:backend": "lerna run --stream --scope=@*/{workshop,backend} dev",
     "lint": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli,workshop} lint",
+    "build": "yarn lerna run --scope=@*/{web,docs,workshop,backend,cli} build",
     "build:watch": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli} build:watch",
     "build:docs": "cd ./packages/docs && yarn install && yarn build"
   },

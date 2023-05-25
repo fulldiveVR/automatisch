@@ -33,7 +33,6 @@ rm -rf .env
 echo "
 PORT=$WEB_PORT
 REACT_APP_GRAPHQL_URL=http://localhost:$BACKEND_PORT/graphql
-REACT_APP_NOTIFICATIONS_URL=https://notifications.automatisch.io
 REACT_APP_DOCS_URL=http://localhost:3002
 " >> .env
 cd $CURRENT_DIR
@@ -52,6 +51,7 @@ rm -rf .env
 echo "
 APP_ENV=development
 PORT=3003
+REBUILD_APPS=true
 " >> .env
 cd $CURRENT_DIR
 
@@ -63,10 +63,5 @@ echo "Migrating database..."
 cd packages/backend
 yarn db:migrate
 yarn db:seed:user
-
-echo "Compiling apps..."
-cd $CURRENT_DIR
-cd packages/workshop
-yarn compile:apps
 
 echo "Done!"

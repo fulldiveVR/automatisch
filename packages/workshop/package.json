@@ -9,11 +9,13 @@
     "src": "src"
   },
   "files": [
-    "src"
+    "dist",
+    "src",
+    "workshop.d.ts",
+    "workshop.js"
   ],
   "scripts": {
     "dev": "ts-node-dev --exit-child src/index.ts",
-    "compile:apps": "ts-node src/compile.ts",
     "build": "tsc",
     "build:watch": "nodemon --watch 'src/**/*.ts' --exec yarn build --ext ts",
     "lint": "eslint . --ignore-path ../../.eslintignore"
@@ -31,6 +33,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "winston": "^3.8.2"
   }
 }
