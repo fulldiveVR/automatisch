@@ -15,7 +15,7 @@
     "workshop.js"
   ],
   "scripts": {
-    "dev": "ts-node-dev --exit-child src/index.ts",
+    "dev": "ts-node-dev --watch 'src/**/*.ts' --exit-child src/index.ts",
     "build": "tsc",
     "build:watch": "nodemon --watch 'src/**/*.ts' --exec yarn build --ext ts",
     "lint": "eslint . --ignore-path ../../.eslintignore"
