@@ -11,6 +11,7 @@ echo "
 PORT=$BACKEND_PORT
 WEB_APP_URL=http://localhost:$WEB_PORT
 APP_ENV=development
+LOG_LEVEL=debug
 POSTGRES_DATABASE=automatisch
 POSTGRES_PORT=5432
 POSTGRES_HOST=postgres
