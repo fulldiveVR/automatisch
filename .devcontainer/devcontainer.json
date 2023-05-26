@@ -40,12 +40,18 @@
       "label": "Docs",
       "onAutoForward": "silent",
       "protocol": "http"
+    },
+    "3003": {
+      "label": "Workshop",
+      "onAutoForward": "silent",
+      "protocol": "http"
     }
   },
   "forwardPorts": [
     3000,
     3001,
-    3002
+    3002,
+    3003
   ],
   // Use 'postCreateCommand' to run commands after the container is created.
   "postCreateCommand": [

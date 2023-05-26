@@ -3,10 +3,11 @@
   "license": "See LICENSE file",
   "private": true,
   "scripts": {
-    "start": "lerna run --stream --parallel --scope=@*/{web,docs,backend} dev",
+    "start": "lerna run --stream --parallel --scope=@*/{web,docs,workshop,backend} dev",
     "start:web": "lerna run --stream --scope=@*/web dev",
-    "start:backend": "lerna run --stream --scope=@*/backend dev",
-    "lint": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli} lint",
+    "start:backend": "lerna run --stream --scope=@*/{workshop,backend} dev",
+    "lint": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli,workshop} lint",
+    "build": "yarn lerna run --scope=@*/{web,docs,workshop,backend,cli} build",
     "build:watch": "lerna run --no-bail --stream --parallel --scope=@*/{web,backend,cli} build:watch",
     "build:docs": "cd ./packages/docs && yarn install && yarn build"
   },

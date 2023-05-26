@@ -21,8 +21,9 @@ WEBHOOK_SECRET_KEY=sample_webhook_secret_key
 APP_SECRET_KEY=sample_app_secret_key
 REDIS_HOST=redis
 SERVE_WEB_APP_SEPARATELY=true
-WIZE_API_HOST=https://ai-news-api.fdvr.co
+WIZE_API_HOST=https://dashboard-api.aiwayz.com
 DOCS_BASE_URL=http://localhost:3002
+WORKSHOP_API_URL=http://localhost:3003
 " >> .env
 cd $CURRENT_DIR
 
@@ -32,7 +33,6 @@ rm -rf .env
 echo "
 PORT=$WEB_PORT
 REACT_APP_GRAPHQL_URL=http://localhost:$BACKEND_PORT/graphql
-REACT_APP_NOTIFICATIONS_URL=https://notifications.automatisch.io
 REACT_APP_DOCS_URL=http://localhost:3002
 " >> .env
 cd $CURRENT_DIR
@@ -42,6 +42,16 @@ cd packages/docs
 rm -rf .env
 echo "
 BASE_URL=/
+" >> .env
+cd $CURRENT_DIR
+
+echo "Configuring workshop environment variables..."
+cd packages/workshop
+rm -rf .env
+echo "
+APP_ENV=development
+PORT=3003
+REBUILD_APPS=true
 " >> .env
 cd $CURRENT_DIR
 

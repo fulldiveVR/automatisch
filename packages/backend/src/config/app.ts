@@ -50,6 +50,7 @@ type AppConfig = {
   sentryDsn: string;
   wizeApiHost: string;
   docsBaseUrl: string;
+  workshopApiUrl: string;
 };
 
 const host = process.env.HOST || 'localhost';
@@ -129,6 +130,7 @@ const appConfig: AppConfig = {
   sentryDsn: process.env.SENTRY_DSN,
   wizeApiHost: process.env.WIZE_API_HOST,
   docsBaseUrl: docsUrl,
+  workshopApiUrl: process.env.WORKSHOP_API_URL
 };
 
 if (!appConfig.encryptionKey) {

@@ -1,0 +1,39 @@
+{
+  "name": "@automatisch/workshop",
+  "description": "The open source Zapier alternative. Build workflow automation without spending time and money.",
+  "license": "See LICENSE file",
+  "version": "0.0.1",
+  "private": true,
+  "main": "src/index.ts",
+  "directories": {
+    "src": "src"
+  },
+  "files": [
+    "dist",
+    "src",
+    "workshop.d.ts",
+    "workshop.js"
+  ],
+  "scripts": {
+    "dev": "ts-node-dev --watch 'src/**/*.ts' --exit-child src/index.ts",
+    "build": "tsc",
+    "build:watch": "nodemon --watch 'src/**/*.ts' --exec yarn build --ext ts",
+    "lint": "eslint . --ignore-path ../../.eslintignore"
+  },
+  "devDependencies": {
+    "@automatisch/types": "^0.7.1",
+    "@types/node": "^20.2.1",
+    "nodemon": "^2.0.22",
+    "ts-loader": "^9.4.2",
+    "ts-node": "^10.9.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.0.4",
+    "webpack": "^5.83.1"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "winston": "^3.8.2"
+  }
+}

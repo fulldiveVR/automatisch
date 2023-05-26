@@ -1,0 +1,26 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "declaration": true,
+        "esModuleInterop": true,
+        "lib": [
+            "es2021"
+        ],
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noImplicitAny": true,
+        "outDir": "dist",
+        "paths": {
+            "*": [
+                "../../node_modules/*",
+                "node_modules/*"
+            ]
+        },
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "target": "es2021",
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

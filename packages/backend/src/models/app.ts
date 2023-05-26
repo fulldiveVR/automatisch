@@ -1,27 +1,24 @@
-import fs from 'fs';
-import { join } from 'path';
 import { IApp } from '@automatisch/types';
 import appInfoConverter from '../helpers/app-info-converter';
 import getApp from '../helpers/get-app';
+import getApps from '../helpers/get-apps';
 
 class App {
-  static folderPath = join(__dirname, '../apps');
-  static list = fs
-    .readdirSync(this.folderPath)
-    .filter((file) => fs.statSync(this.folderPath + '/' + file).isDirectory());
-
   static async findAll(name?: string, stripFuncs = true): Promise<IApp[]> {
-    if (!name)
+    const list = Object.keys(await getApps());
+
+    if (!name) {
       return Promise.all(
-        this.list.map(
+        list.map(
           async (name) => await this.findOneByName(name, stripFuncs)
         )
       );
+    }
 
     return Promise.all(
-      this.list
+      list
         .filter((app) => app.includes(name.toLowerCase()))
-        .map((name) => this.findOneByName(name, stripFuncs))
+        .map(async (name) => await this.findOneByName(name, stripFuncs))
     );
   }
 
