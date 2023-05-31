@@ -2,15 +2,10 @@ import type { IApp } from '@automatisch/types';
 import appConfig from '../config/app';
 
 const appInfoConverter = (rawAppData: IApp) => {
-  rawAppData.iconUrl = rawAppData.iconUrl.replace(
-    '{BASE_URL}',
-    appConfig.baseUrl
-  );
-
-  rawAppData.iconUrl = rawAppData.iconUrl.replace(
-    '{WORKSHOP_URL}',
-    appConfig.workshopApiUrl
-  );
+  const iconHosts = [['{BASE_URL}', appConfig.baseUrl], ['{WORKSHOP_URL}', appConfig.workshopApiUrl]];
+  for (const [pattern, host] of iconHosts) {
+    rawAppData.iconUrl = rawAppData.iconUrl.replace(pattern, host);
+  }
 
   rawAppData.authDocUrl = rawAppData.authDocUrl?.replace(
     '{DOCS_URL}',
