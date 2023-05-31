@@ -6,7 +6,7 @@ import actions from './actions';
 export default defineApp({
   name: 'The Cat API',
   key: 'thecatapi',
-  iconUrl: '{BASE_URL}/apps/webhook/assets/favicon.svg',
+  iconUrl: '{WORKSHOP_URL}/apps/thecatapi/assets/favicon.svg',
   authDocUrl: '{DOCS_URL}/apps/thecatapi/connection',
   supportsConnections: true,
   baseUrl: 'https://thecatapi.com',

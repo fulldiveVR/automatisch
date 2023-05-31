@@ -7,6 +7,11 @@ const appInfoConverter = (rawAppData: IApp) => {
     appConfig.baseUrl
   );
 
+  rawAppData.iconUrl = rawAppData.iconUrl.replace(
+    '{WORKSHOP_URL}',
+    appConfig.workshopApiUrl
+  );
+
   rawAppData.authDocUrl = rawAppData.authDocUrl?.replace(
     '{DOCS_URL}',
     appConfig.docsBaseUrl
