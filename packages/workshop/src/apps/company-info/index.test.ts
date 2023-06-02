@@ -26,6 +26,12 @@ describe('company-info', () => {
         app: app as IApp,
     };
 
+    describe('app', () => {
+        it('should be defined', () => {
+            expect(app).toBeDefined();
+        })
+    });
+
     describe('actions', () => {
         describe('fetch', () => {
             const fetchAction = $.app.actions.find(
