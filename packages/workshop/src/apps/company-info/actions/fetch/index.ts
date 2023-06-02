@@ -17,7 +17,7 @@ export default defineAction({
     ],
 
     async run($) {
-        const domain = $.step.parameters.domain;
+        const domain = $.step.parameters.domain as string;
         const { data } = await $.http.get(`/v2/company?query=${domain}`);
         $.setActionItem({ raw: data });
     },
