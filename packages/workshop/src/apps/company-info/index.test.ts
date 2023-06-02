@@ -20,7 +20,7 @@ describe('company-info', () => {
     const $: IGlobalVariable = {
         http: mockedAxios,
         auth: {
-            set: async () => undefined,
+            set: async () => null,
             data: undefined,
         },
         app: app as IApp,
@@ -29,6 +29,10 @@ describe('company-info', () => {
     describe('app', () => {
         it('should be defined', () => {
             expect(app).toBeDefined();
+        })
+
+        it('should be correct apiBaseUrl', () => {
+            expect(app.apiBaseUrl).toBe('https://companies-datas.p.rapidapi.com')
         })
     });
 
