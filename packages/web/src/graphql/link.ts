@@ -3,6 +3,7 @@ import type { ApolloLink } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
 import { setItem } from 'helpers/storage';
+import appConfig from 'config/app';
 import * as URLS from 'config/urls';
 
 type CreateLinkOptions = {
@@ -40,8 +41,9 @@ const createErrorLink = (callback: CreateLinkOptions['onError']): ApolloLink =>
         if (message === NOT_AUTHORISED) {
           setItem('token', '');
 
-          if (window.location.pathname !== URLS.AUTH) {
-            window.location.href = URLS.AUTH;
+          const target = appConfig.env === 'production' ? URLS.AUTH : URLS.LOGIN
+          if (window.location.pathname !== target) {
+            window.location.href = target;
           }
         }
       });
@@ -56,7 +58,7 @@ const createErrorLink = (callback: CreateLinkOptions['onError']): ApolloLink =>
   });
 
 // eslint-disable-next-line @typescript-eslint/no-empty-function
-const noop = () => {};
+const noop = () => { };
 
 const createLink = (options: CreateLinkOptions): ApolloLink => {
   const { uri, onError = noop, token } = options;

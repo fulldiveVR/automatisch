@@ -3,6 +3,7 @@ type Config = {
 };
 
 const config: Config = {
+  env: process.env.NODE_ENV as string,
   baseUrl: process.env.REACT_APP_BASE_URL as string,
   graphqlUrl: process.env.REACT_APP_GRAPHQL_URL as string,
   notificationsUrl: process.env.REACT_APP_NOTIFICATIONS_URL as string,

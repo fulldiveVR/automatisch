@@ -7,8 +7,10 @@ import Executions from 'pages/Executions';
 import Execution from 'pages/Execution';
 import Flows from 'pages/Flows';
 import Flow from 'pages/Flow';
+import Login from 'pages/Login';
 import Auth from 'pages/Auth';
 import EditorRoutes from 'pages/Editor/routes';
+import appConfig from 'config/app';
 import * as URLS from 'config/urls';
 
 export default (
@@ -68,6 +70,18 @@ export default (
     />
 
     <Route path={`${URLS.EDITOR}/*`} element={<EditorRoutes />} />
+
+    {
+      appConfig.env === 'development' &&
+      <Route
+        path={URLS.LOGIN}
+        element={
+          <PublicLayout>
+            <Login />
+          </PublicLayout>
+        }
+      />
+    }
 
     <Route
       path={URLS.AUTH}
