@@ -13,6 +13,8 @@ import useFormatMessage from 'hooks/useFormatMessage';
 import { EditorContext } from 'contexts/Editor';
 import { GET_APPS } from 'graphql/queries/get-apps';
 import FlowSubstepTitle from 'components/FlowSubstepTitle';
+import AppIcon from 'components/AppIcon';
+
 import type {
   IApp,
   IStep,
@@ -100,6 +102,10 @@ function ChooseAppAndEventSubstep(
 
   const valid: boolean = !!step.key && !!step.appKey;
 
+  const getAppIconUrl = (key: string) => {
+    return apps?.find((app) => app.key === key)?.iconUrl;
+  };
+
   // placeholders
   const onEventChange = React.useCallback(
     (event: React.SyntheticEvent, selectedOption: unknown) => {
@@ -175,6 +181,25 @@ function ChooseAppAndEventSubstep(
                 {...params}
                 label={formatMessage('flowEditor.chooseApp')}
               />
+            )}
+            renderOption={(optionProps, option) => (
+              <li
+                {...optionProps}
+                key={option.value.toString()}
+                style={{
+                  flexDirection: 'row',
+                  padding: '8px',
+                  gap: '12px',
+                }}
+              >
+                <AppIcon
+                  color="transparent"
+                  url={getAppIconUrl(option.value)}
+                  name={option.label}
+                  sx={{ width: 32, height: 32 }}
+                />
+                <Typography>{option.label}</Typography>
+              </li>
             )}
             value={getOption(appOptions, step.appKey)}
             onChange={onAppChange}
