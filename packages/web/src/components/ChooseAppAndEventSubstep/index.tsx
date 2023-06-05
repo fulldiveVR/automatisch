@@ -82,7 +82,8 @@ function ChooseAppAndEventSubstep(
   const app = apps?.find((currentApp: IApp) => currentApp.key === step.appKey);
 
   const appOptions = React.useMemo(
-    () => apps?.map((app) => optionGenerator(app)),
+    () => apps?.map((app) => optionGenerator(app))
+      .sort((a, b) => a.label.localeCompare(b.label)),
     [apps]
   );
   const actionsOrTriggers: Array<ITrigger | IAction> =
