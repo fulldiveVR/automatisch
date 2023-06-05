@@ -188,7 +188,7 @@ function ChooseAppAndEventSubstep(
                 key={option.value.toString()}
                 style={{
                   flexDirection: 'row',
-                  padding: '8px',
+                  padding: '8px 16px',
                   gap: '12px',
                 }}
               >
