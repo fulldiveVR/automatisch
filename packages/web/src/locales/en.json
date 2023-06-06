@@ -70,6 +70,7 @@
   "flow.updatedAt": "updated {datetime}",
   "flow.view": "View",
   "flow.duplicate": "Duplicate",
+  "flow.export": "Export",
   "flow.delete": "Delete",
   "flowStep.triggerType": "Trigger",
   "flowStep.actionType": "Action",
