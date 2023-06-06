@@ -5,8 +5,8 @@ import actions from './actions/index'
 export default defineApp({
   name: 'OK',
   key: 'ok',
-  iconUrl: '{BASE_URL}/apps/ok/assets/favicon.svg',
-  authDocUrl: 'https://automatisch.io/docs/apps/ok/connection',
+  iconUrl: '{WORKSHOP_URL}/apps/ok/assets/favicon.svg',
+  authDocUrl: '{DOCS_URL}/apps/ok/connection',
   supportsConnections: true,
   baseUrl: 'https://connect.ok.ru',
   apiBaseUrl: 'https://api.ok.ru',
