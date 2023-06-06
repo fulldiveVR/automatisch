@@ -47,7 +47,9 @@ export default defineAction({
     const response = await $.http.get('/api/mediatopic/post', { params });
 
     $.setActionItem({
-      raw: response.data,
+      raw: {
+        id: response.data
+      },
     });
   },
 });
