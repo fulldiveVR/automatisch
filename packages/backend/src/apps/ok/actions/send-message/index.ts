@@ -43,7 +43,6 @@ export default defineAction({
 
     params.sig = okSignature(params, $.auth.data.accessToken as string);
     params.access_token = $.auth.data.accessToken;
-    console.log($.auth.data, params)
 
     const response = await $.http.get('/api/mediatopic/post', { params });
 

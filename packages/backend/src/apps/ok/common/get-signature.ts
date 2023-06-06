@@ -1,7 +1,3 @@
-//  Formatted version of a popular md5 implementation
-//  Original copyright (c) Paul Johnston & Greg Holt.
-//  The function itself is now 42 lines long.
-
 import _ from "lodash";
 
 export function md5(inputString: string) {
