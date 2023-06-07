@@ -1,7 +1,7 @@
 import { IApp } from '@automatisch/types';
 import appInfoConverter from '../helpers/app-info-converter';
 import getApp from '../helpers/get-app';
-import getApps from '../helpers/get-apps';
+import getApps, { internalApps } from '../helpers/get-apps';
 
 class App {
   static async findAll(name?: string, stripFuncs = true): Promise<IApp[]> {
@@ -56,6 +56,10 @@ class App {
     if (!hasTrigger) {
       throw new Error(`${app.name} does not have a trigger with the "${triggerKey}" key!`);
     }
+  }
+
+  static isInternalApp(appKey: string): boolean {
+    return internalApps[appKey] ? true : false;
   }
 }
 

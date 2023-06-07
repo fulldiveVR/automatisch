@@ -17,13 +17,15 @@ const workshopPath = path.resolve(__dirname, '../../workshop/');
 
 let isWorkshopLoaded = false;
 
-const apps = fs
+export const internalApps = fs
     .readdirSync(appsPath, { withFileTypes: true })
     .filter((dirent) => dirent.isDirectory())
     .reduce((apps, dirent) => {
         apps[dirent.name] = import(path.resolve(appsPath, dirent.name));
         return apps;
     }, {} as TApps);
+
+const allApps = internalApps;
 
 const getWorkshopApps = async (): Promise<IWorkshopApp[]> => {
     const response = await axios.get(`${appConfig.workshopApiUrl}/apps/list`);
@@ -57,7 +59,7 @@ const loadWorkshopAppsIfNeeded = async () => {
     const list = await getWorkshopApps();
     for (const app of list) {
         const path = await downloadWorkshopApp(app);
-        apps[app.id] = import(path);
+        allApps[app.id] = import(path);
     }
     isWorkshopLoaded = true;
 };
@@ -65,7 +67,7 @@ const loadWorkshopAppsIfNeeded = async () => {
 const getApps = async (): Promise<TApps> => {
     await loadWorkshopAppsIfNeeded();
 
-    return apps;
+    return allApps;
 }
 
 export default getApps;
