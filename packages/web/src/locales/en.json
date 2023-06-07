@@ -75,6 +75,7 @@
   "flowStep.triggerType": "Trigger",
   "flowStep.actionType": "Action",
   "flows.create": "Create flow",
+  "flows.importFlow": "Import flow",
   "flows.title": "Flows",
   "flows.noFlows": "You don't have any flows yet.",
   "flowEditor.goBack": "Go back to flows",
