@@ -1,11 +1,12 @@
 import * as React from 'react';
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import type { LinkProps } from 'react-router-dom';
-import { useLazyQuery } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import debounce from 'lodash/debounce';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CircularProgress from '@mui/material/CircularProgress';
 import Divider from '@mui/material/Divider';
 import Pagination from '@mui/material/Pagination';
@@ -20,6 +21,7 @@ import PageTitle from 'components/PageTitle';
 import SearchInput from 'components/SearchInput';
 import useFormatMessage from 'hooks/useFormatMessage';
 import { GET_FLOWS } from 'graphql/queries/get-flows';
+import { IMPORT_FLOW } from 'graphql/mutations/import-flow';
 import * as URLS from 'config/urls';
 
 const FLOW_PER_PAGE = 10;
@@ -30,6 +32,9 @@ const getLimitAndOffset = (page: number) => ({
 });
 
 export default function Flows(): React.ReactElement {
+  const navigate = useNavigate();
+  const importRef = React.useRef<HTMLInputElement>(null);
+  const [importFlow] = useMutation(IMPORT_FLOW);
   const formatMessage = useFormatMessage();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get('page') || '', 10) || 1;
@@ -84,8 +89,30 @@ export default function Flows(): React.ReactElement {
   const flows: IFlow[] = edges?.map(({ node }: { node: IFlow }) => node);
   const hasFlows = flows?.length;
 
+  const handleImportChange = (event: any) => {
+    const fileObj = event.target.files && event.target.files[0];
+    if (!fileObj) {
+      return;
+    }
+    event.target.value = null;
+
+    const reader = new FileReader()
+    reader.onload = async (e: any) => {
+      const inputData = JSON.parse(e.target.result);
+      const response = await importFlow({ variables: { input: inputData } })
+      const flowId = response.data?.importFlow?.id;
+
+      navigate(URLS.FLOW_EDITOR(flowId), { replace: true });
+    };
+    reader.readAsText(fileObj)
+  };
+
   const onSearchChange = React.useCallback((event) => {
     setFlowName(event.target.value);
+  }, []);
+
+  const onImportFlow = React.useCallback(() => {
+    importRef.current?.click();
   }, []);
 
   const CreateFlowLink = React.useMemo(
@@ -116,20 +143,38 @@ export default function Flows(): React.ReactElement {
             xs="auto"
             sm="auto"
             alignItems="center"
+            spacing={2}
             order={{ xs: 1, sm: 2 }}
           >
-            <ConditionalIconButton
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              component={CreateFlowLink}
-              fullWidth
-              icon={<AddIcon />}
-              data-test="create-flow-button"
-            >
-              {formatMessage('flows.create')}
-            </ConditionalIconButton>
+            <Grid item>
+              <ConditionalIconButton
+                type="submit"
+                variant="outlined"
+                color="primary"
+                size="large"
+                onClick={onImportFlow}
+                fullWidth
+                icon={<UploadFileIcon />}
+                data-test="import-flow-button"
+              >
+                {formatMessage('flows.importFlow')}
+              </ConditionalIconButton>
+            </Grid>
+
+            <Grid item>
+              <ConditionalIconButton
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                component={CreateFlowLink}
+                fullWidth
+                icon={<AddIcon />}
+                data-test="create-flow-button"
+              >
+                {formatMessage('flows.create')}
+              </ConditionalIconButton>
+            </Grid>
           </Grid>
         </Grid>
 
@@ -167,6 +212,12 @@ export default function Flows(): React.ReactElement {
           />
         )}
       </Container>
+      <input
+        style={{ display: 'none' }}
+        ref={importRef}
+        type="file"
+        onChange={handleImportChange}
+      />
     </Box>
   );
 }

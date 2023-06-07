@@ -47,6 +47,7 @@ type Mutation {
   deleteConnection(input: DeleteConnectionInput): Boolean
   createFlow(input: CreateFlowInput): Flow
   updateFlow(input: UpdateFlowInput): Flow
+  importFlow(input: ImportFlowInput): Flow
   updateFlowStatus(input: UpdateFlowStatusInput): Flow
   executeFlow(input: ExecuteFlowInput): executeFlowType
   deleteFlow(input: DeleteFlowInput): Boolean
@@ -301,6 +302,20 @@ input CreateFlowInput {
 input UpdateFlowInput {
   id: String!
   name: String!
+}
+
+input ImportFlowInput {
+  name: String!
+  steps: [ImportStepInput!]!
+}
+
+input ImportStepInput {
+  id: String!
+  key: String!
+  appKey: String!
+  type: String!
+  position: Int!
+  parameters: JSONObject!
 }
 
 input UpdateFlowStatusInput {
