@@ -59,7 +59,7 @@ class App {
   }
 
   static isInternalApp(appKey: string): boolean {
-    return internalApps[appKey] ? true : false;
+    return appKey in internalApps();
   }
 }
 
