@@ -2,8 +2,8 @@ import cleanUrl from './clean-url';
 
 describe('cleanUrl', () => {
     it('should remove whitespace and return the origin of the URL', () => {
-        const rawUrl = '  https://www.example.com/path/to/page.html  ';
-        const expected = 'https://www.example.com';
+        const rawUrl = '  https://www.example.com/path/to/page.html?query=string  ';
+        const expected = 'https://www.example.com/path/to/page.html?query=string';
 
         const result = cleanUrl(rawUrl);
 

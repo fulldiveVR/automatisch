@@ -10,7 +10,15 @@ const cleanUrl = (rawUrl: string) => {
 
     // parse url object
     const urlObject = new URL(url);
-    return urlObject.origin;
+
+    let href = urlObject.href;
+
+    //remove trailing slash if it exists
+    if (href[href.length - 1] === "/") {
+        href = href.slice(0, -1);
+    }
+
+    return href;
 }
 
 export default cleanUrl;
