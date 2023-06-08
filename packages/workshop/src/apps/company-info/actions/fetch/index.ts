@@ -1,4 +1,7 @@
 import defineAction from '../../../../helpers/define-action';
+import summarizeContent from './content-summary';
+import fetchPageContent from './page-content';
+import cleanUrl from './clean-url';
 
 export default defineAction({
     name: 'Get company info',
@@ -10,15 +13,19 @@ export default defineAction({
             key: 'domain',
             type: 'string' as const,
             required: true,
-            placeholder: "gucci.com",
-            description: 'Provide a company domain. Example: gucci.com',
+            placeholder: "google.com",
+            description: 'Provide a company domain. Example: google.com',
             variables: true,
         },
     ],
 
     async run($) {
-        const domain = $.step.parameters.domain as string;
-        const { data } = await $.http.get(`/v2/company?query=${domain}`);
-        $.setActionItem({ raw: data });
+        const url = cleanUrl($.step.parameters.domain as string);
+        const pageContent = await fetchPageContent($, url);
+        const summary = await summarizeContent($, pageContent);
+
+        $.setActionItem({
+            raw: { url, summary },
+        });
     },
 });

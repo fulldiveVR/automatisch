@@ -1,5 +1,4 @@
 import defineApp from '../../helpers/define-app';
-import addAuthHeader from './common/add-auth-header';
 import auth from './auth';
 import actions from './actions';
 
@@ -9,10 +8,9 @@ export default defineApp({
     iconUrl: '{WORKSHOP_URL}/apps/company-info/assets/favicon.svg',
     authDocUrl: '{DOCS_URL}/apps/company-info/connection',
     supportsConnections: true,
-    baseUrl: 'https://rapidapi.com',
-    apiBaseUrl: 'https://companies-datas.p.rapidapi.com',
+    baseUrl: '',
+    apiBaseUrl: '',
     primaryColor: '000000',
-    beforeRequest: [addAuthHeader],
     auth,
     actions,
 });

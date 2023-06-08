@@ -1,11 +1,8 @@
 import { IGlobalVariable } from '@automatisch/types';
+import getModels from '../common/get-models';
 
 const verifyCredentials = async ($: IGlobalVariable) => {
-  await $.http.get('v2/company?query=gucci.com');
-
-  await $.auth.set({
-    screenName: $.auth.data.screenName,
-  });
+  await getModels($);
 };
 
 export default verifyCredentials;
