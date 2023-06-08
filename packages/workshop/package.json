@@ -19,7 +19,7 @@
     "build": "tsc",
     "build:watch": "nodemon --watch 'src/**/*.ts' --exec yarn build --ext ts",
     "lint": "eslint . --ignore-path ../../.eslintignore",
-    "test": "jest"
+    "test": "jest --bail --runInBand"
   },
   "devDependencies": {
     "@automatisch/types": "^0.7.1",
