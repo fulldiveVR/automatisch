@@ -49,15 +49,18 @@ export const processStepWithExecutions = (steps: IStep[]): any[] => {
 
       return hasExecutionSteps;
     })
-    .map((step: IStep, index: number) => ({
-      id: step.id,
+    .map((step: IStep, index: number) => {
       // TODO: replace with step.name once introduced
-      name: `${index + 1}. ${
-        (step.appKey || '').charAt(0)?.toUpperCase() + step.appKey?.slice(1)
-      }`,
-      output: process(
-        step.executionSteps?.[0]?.dataOut || {},
-        `step.${step.id}`
-      ),
-    }));
+      const app = ((step.appKey || '').charAt(0)?.toUpperCase() + step.appKey?.slice(1)).replace(/-/g, ' ');
+
+      return {
+        id: step.id,
+        name: `${index + 1}. ${app}`,
+        iconUrl: step.iconUrl,
+        output: process(
+          step.executionSteps?.[0]?.dataOut || {},
+          `step.${step.id}`
+        ),
+      }
+    });
 };

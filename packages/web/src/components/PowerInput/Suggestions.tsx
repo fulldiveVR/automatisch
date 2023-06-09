@@ -7,10 +7,17 @@ import ListItemButton from '@mui/material/ListItemButton';
 import MuiListItemText from '@mui/material/ListItemText';
 import Paper from '@mui/material/Paper';
 import Collapse from '@mui/material/Collapse';
-import Typography from '@mui/material/Typography';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
+import FormControl from '@mui/material/FormControl';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import Box from '@mui/material/Box';
+
 import type { IStep } from '@automatisch/types';
+import useFormatMessage from 'hooks/useFormatMessage';
+import AppIcon from 'components/AppIcon';
 
 const ListItemText = styled(MuiListItemText)``;
 
@@ -31,6 +38,39 @@ const Suggestions = (props: SuggestionsProps) => {
   const [current, setCurrent] = React.useState<number | null>(0);
   const [listLength, setListLength] = React.useState<number>(SHORT_LIST_LENGTH);
 
+  const formatMessage = useFormatMessage();
+
+  const [filter, setFilter] = React.useState<string>('');
+  const [filtered, setFiltered] = React.useState<any[] | null>();
+
+  React.useEffect(() => {
+    if (!filter) {
+      setFiltered(null);
+      return;
+    }
+
+    const filteredData = data
+      .map((step: any) => {
+        // If the step name matches the filter, return the step
+        if (step.name.toLowerCase().includes(filter.toLowerCase())) {
+          return step;
+        }
+
+        // Otherwise, filter the output variables
+        const output = step.output.filter((variable: any) => {
+          const name = variable.name.replace(`step.${step.id}.`, '');
+          return name.toLowerCase().includes(filter.toLowerCase());
+        });
+        return { ...step, output };
+      })
+      // Remove steps that don't have any output variables
+      .filter((step: any) => {
+        return step.output.length > 0;
+      });
+
+    setFiltered(filteredData);
+  }, [filter])
+
   const expandList = () => {
     setListLength(Infinity);
   };
@@ -45,12 +85,28 @@ const Suggestions = (props: SuggestionsProps) => {
 
   return (
     <Paper elevation={5} sx={{ width: '100%' }}>
-      <Typography variant="subtitle2" sx={{ p: 2 }}>
-        Variables
-      </Typography>
+
+      <FormControl fullWidth>
+        <TextField
+          variant="outlined"
+          label={formatMessage("flowEditor.setupAction.searchVariable")}
+          sx={{ m: 2 }}
+          InputProps={{
+            endAdornment:
+              <InputAdornment position="end">
+                <SearchIcon
+                  sx={{ color: (theme) => theme.palette.primary.main }}
+                />
+              </InputAdornment>,
+          }}
+          onChange={(event) => setFilter(event.target.value)}
+          data-test="search-for-variable-text-field"
+        />
+      </FormControl>
+
       <List disablePadding>
-        {data.map((option: IStep, index: number) => (
-          <>
+        {(filtered || data).map((option: IStep, index: number) => (
+          <Box key={`${option.appKey}-${option.id}`}>
             <ListItemButton
               divider
               onClick={() =>
@@ -58,15 +114,21 @@ const Suggestions = (props: SuggestionsProps) => {
                   currentIndex === index ? null : index
                 )
               }
-              sx={{ py: 0.5 }}
+              sx={{ py: 1, gap: 1.6 }}
             >
+              <AppIcon
+                color="transparent"
+                url={option.iconUrl}
+                name={option.name}
+                sx={{ width: 24, height: 24 }}
+              />
               <ListItemText primary={option.name} />
 
-              {!!option.output?.length &&
+              {!filter && !!option.output?.length &&
                 (current === index ? <ExpandLess /> : <ExpandMore />)}
             </ListItemButton>
 
-            <Collapse in={current === index} timeout="auto" unmountOnExit>
+            <Collapse in={current === index || !!filter} timeout="auto" unmountOnExit>
               <List
                 component="div"
                 disablePadding
@@ -83,7 +145,7 @@ const Suggestions = (props: SuggestionsProps) => {
                       key={`suggestion-${suboption.name}`}
                     >
                       <ListItemText
-                        primary={suboption.name}
+                        primary={suboption.name.replace(`step.${option.id}.`, '')}
                         primaryTypographyProps={{
                           variant: 'subtitle1',
                           title: 'Property name',
@@ -107,13 +169,13 @@ const Suggestions = (props: SuggestionsProps) => {
                 </Button>
               )}
 
-              {listLength === Infinity && (
+              {listLength === Infinity && !filter && (
                 <Button fullWidth onClick={collapseList}>
                   Show less
                 </Button>
               )}
             </Collapse>
-          </>
+          </Box>
         ))}
       </List>
     </Paper>

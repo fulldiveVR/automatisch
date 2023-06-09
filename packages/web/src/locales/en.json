@@ -61,6 +61,7 @@
   "flowEditor.triggerEvent": "Trigger event",
   "flowEditor.actionEvent": "Action event",
   "flowEditor.instantTriggerType": "Instant",
+  "flowEditor.setupAction.searchVariable": "Search for a variable",
   "filterConditions.onlyContinueIf": "Only continue if…",
   "filterConditions.orContinueIf": "OR continue if…",
   "chooseConnectionSubstep.continue": "Continue",
