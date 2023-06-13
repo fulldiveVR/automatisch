@@ -1,75 +1,102 @@
-import * as React from 'react';
-
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import List from '@mui/material/List';
-import ListItemButton from '@mui/material/ListItemButton';
-import MuiListItemText from '@mui/material/ListItemText';
-import Paper from '@mui/material/Paper';
-import Collapse from '@mui/material/Collapse';
+import type { IStep } from '@automatisch/types';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import TextField from '@mui/material/TextField';
-import SearchIcon from '@mui/icons-material/Search';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Collapse from '@mui/material/Collapse';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
+import throttle from 'lodash/throttle';
+import * as React from 'react';
+import { FixedSizeList, ListChildComponentProps } from 'react-window';
 
-import type { IStep } from '@automatisch/types';
-import useFormatMessage from 'hooks/useFormatMessage';
+import SearchInput from 'components/SearchInput';
 import AppIcon from 'components/AppIcon';
-
-const ListItemText = styled(MuiListItemText)``;
+import useFormatMessage from 'hooks/useFormatMessage';
 
 type SuggestionsProps = {
-  data: any[];
+  data: {
+    id: string;
+    name: string;
+    iconUrl: string;
+    output: Record<string, unknown>[]
+  }[];
   onSuggestionClick: (variable: any) => void;
 };
 
 const SHORT_LIST_LENGTH = 4;
-const LIST_HEIGHT = 256;
+const LIST_ITEM_HEIGHT = 64;
+
+const computeListHeight = (currentLength: number) => {
+  const numberOfRenderedItems = Math.min(SHORT_LIST_LENGTH, currentLength);
+  return LIST_ITEM_HEIGHT * numberOfRenderedItems;
+}
 
 const getPartialArray = (array: any[], length = array.length) => {
   return array.slice(0, length);
 };
 
+const renderItemFactory = ({ onSuggestionClick }: Pick<SuggestionsProps, 'onSuggestionClick'>) => (props: ListChildComponentProps) => {
+  const { index, style, data } = props;
+
+  const suboption = data[index];
+
+  return (
+    <ListItemButton
+      sx={{ pl: 4 }}
+      divider
+      onClick={() => onSuggestionClick(suboption)}
+      data-test="power-input-suggestion-item"
+      key={index}
+      style={style}
+    >
+      <ListItemText
+        primary={suboption.label}
+        primaryTypographyProps={{
+          variant: 'subtitle1',
+          title: 'Property name',
+          sx: { fontWeight: 700 },
+        }}
+        secondary={suboption.sampleValue || ''}
+        secondaryTypographyProps={{
+          variant: 'subtitle2',
+          title: 'Sample value',
+          noWrap: true,
+        }}
+      />
+    </ListItemButton>
+  );
+}
+
 const Suggestions = (props: SuggestionsProps) => {
-  const { data, onSuggestionClick = () => null } = props;
+  const {
+    data,
+    onSuggestionClick = () => null
+  } = props;
   const [current, setCurrent] = React.useState<number | null>(0);
   const [listLength, setListLength] = React.useState<number>(SHORT_LIST_LENGTH);
+  const [filteredData, setFilteredData] = React.useState<any[]>(
+    data
+  );
+
+  React.useEffect(function syncOptions() {
+    setFilteredData((filteredData) => {
+      if (filteredData.length === 0 && filteredData.length !== data.length) {
+        return data;
+      }
+
+      return filteredData;
+    })
+  }, [data]);
+
+  const renderItem = React.useMemo(() => renderItemFactory({
+    onSuggestionClick
+  }), [onSuggestionClick]);
 
   const formatMessage = useFormatMessage();
-
-  const [filter, setFilter] = React.useState<string>('');
-  const [filtered, setFiltered] = React.useState<any[] | null>();
-
-  React.useEffect(() => {
-    if (!filter) {
-      setFiltered(null);
-      return;
-    }
-
-    const filteredData = data
-      .map((step: any) => {
-        // If the step name matches the filter, return the step
-        if (step.name.toLowerCase().includes(filter.toLowerCase())) {
-          return step;
-        }
-
-        // Otherwise, filter the output variables
-        const output = step.output.filter((variable: any) => {
-          const name = variable.name.replace(`step.${step.id}.`, '');
-          return name.toLowerCase().includes(filter.toLowerCase());
-        });
-        return { ...step, output };
-      })
-      // Remove steps that don't have any output variables
-      .filter((step: any) => {
-        return step.output.length > 0;
-      });
-
-    setFiltered(filteredData);
-  }, [filter])
 
   const expandList = () => {
     setListLength(Infinity);
@@ -83,101 +110,102 @@ const Suggestions = (props: SuggestionsProps) => {
     setListLength(SHORT_LIST_LENGTH);
   }, [current]);
 
-  return (
-    <Paper elevation={5} sx={{ width: '100%' }}>
+  const onSearchChange = React.useMemo(
+    () =>
+      throttle((event: React.ChangeEvent) => {
+        const search = (event.target as HTMLInputElement).value.toLowerCase();
 
-      <FormControl fullWidth>
-        <TextField
-          variant="outlined"
-          label={formatMessage("flowEditor.setupAction.searchVariable")}
-          sx={{ m: 2 }}
-          InputProps={{
-            endAdornment:
-              <InputAdornment position="end">
-                <SearchIcon
-                  sx={{ color: (theme) => theme.palette.primary.main }}
-                />
-              </InputAdornment>,
-          }}
-          onChange={(event) => setFilter(event.target.value)}
-          data-test="search-for-variable-text-field"
-        />
-      </FormControl>
+        if (!search) {
+          setFilteredData(data);
+          return;
+        }
 
-      <List disablePadding>
-        {(filtered || data).map((option: IStep, index: number) => (
-          <Box key={`${option.appKey}-${option.id}`}>
-            <ListItemButton
-              divider
-              onClick={() =>
-                setCurrent((currentIndex) =>
-                  currentIndex === index ? null : index
+        const newFilteredData = data
+          .map((stepWithOutput) => {
+            return {
+              id: stepWithOutput.id,
+              name: stepWithOutput.name,
+              iconUrl: stepWithOutput.iconUrl,
+              output: stepWithOutput.output
+                .filter(option => `${option.label}\n${option.sampleValue}`
+                  .toLowerCase()
+                  .includes(search.toLowerCase())
                 )
-              }
-              sx={{ py: 1, gap: 1.6 }}
-            >
-              <AppIcon
-                color="transparent"
-                url={option.iconUrl}
-                name={option.name}
-                sx={{ width: 24, height: 24 }}
-              />
-              <ListItemText primary={option.name} />
+            }
+          })
+          .filter((stepWithOutput) => stepWithOutput.output.length);
 
-              {!filter && !!option.output?.length &&
-                (current === index ? <ExpandLess /> : <ExpandMore />)}
-            </ListItemButton>
+        setFilteredData(newFilteredData);
+      }, 400),
+    [data]
+  );
 
-            <Collapse in={current === index || !!filter} timeout="auto" unmountOnExit>
-              <List
-                component="div"
-                disablePadding
-                sx={{ maxHeight: LIST_HEIGHT, overflowY: 'auto' }}
-                data-test="power-input-suggestion-group"
-              >
-                {getPartialArray((option.output as any) || [], listLength).map(
-                  (suboption: any, index: number) => (
-                    <ListItemButton
-                      sx={{ pl: 4 }}
-                      divider
-                      onClick={() => onSuggestionClick(suboption)}
-                      data-test="power-input-suggestion-item"
-                      key={`suggestion-${suboption.name}`}
-                    >
-                      <ListItemText
-                        primary={suboption.name.replace(`step.${option.id}.`, '')}
-                        primaryTypographyProps={{
-                          variant: 'subtitle1',
-                          title: 'Property name',
-                          sx: { fontWeight: 700 },
-                        }}
-                        secondary={suboption.value || ''}
-                        secondaryTypographyProps={{
-                          variant: 'subtitle2',
-                          title: 'Sample value',
-                          noWrap: true,
-                        }}
-                      />
-                    </ListItemButton>
+  return (
+    <Paper elevation={0} sx={{ width: '100%' }}>
+      <Box px={2} pb={2}>
+        <SearchInput onChange={onSearchChange} />
+      </Box>
+
+      {filteredData.length > 0 && (
+        <List disablePadding>
+          {filteredData.map((option: IStep, index: number) => (
+            <React.Fragment key={`${index}-${option.name}`}>
+              <ListItemButton
+                divider
+                onClick={() =>
+                  setCurrent((currentIndex) =>
+                    currentIndex === index ? null : index
                   )
+                }
+                sx={{ py: 1.0, gap: 1.6 }}
+              >
+                <AppIcon
+                  color="transparent"
+                  url={option.iconUrl}
+                  name={option.name}
+                  sx={{ width: 24, height: 24 }}
+                />
+                <ListItemText primary={option.name} />
+
+                {!!option.output?.length &&
+                  (current === index ? <ExpandLess /> : <ExpandMore />)}
+              </ListItemButton>
+
+              <Collapse in={current === index || filteredData.length === 1} timeout="auto" unmountOnExit>
+                <FixedSizeList
+                  height={computeListHeight(getPartialArray((option.output as any) || [], listLength).length)}
+                  width="100%"
+                  itemSize={LIST_ITEM_HEIGHT}
+                  itemCount={getPartialArray((option.output as any) || [], listLength).length}
+                  overscanCount={2}
+                  itemData={getPartialArray((option.output as any) || [], listLength)}
+                  data-test="power-input-suggestion-group"
+                >
+                  {renderItem}
+                </FixedSizeList>
+
+                {(option.output?.length || 0) > listLength && (
+                  <Button fullWidth onClick={expandList}>
+                    Show all
+                  </Button>
                 )}
-              </List>
 
-              {(option.output?.length || 0) > listLength && (
-                <Button fullWidth onClick={expandList}>
-                  Show all
-                </Button>
-              )}
+                {listLength === Infinity && (
+                  <Button fullWidth onClick={collapseList}>
+                    Show less
+                  </Button>
+                )}
+              </Collapse>
+            </React.Fragment>
+          ))}
+        </List>
+      )}
 
-              {listLength === Infinity && !filter && (
-                <Button fullWidth onClick={collapseList}>
-                  Show less
-                </Button>
-              )}
-            </Collapse>
-          </Box>
-        ))}
-      </List>
+      {filteredData.length === 0 && (
+        <Typography sx={{ p: (theme) => theme.spacing(0, 0, 2, 2) }}>
+          {formatMessage('powerInputSuggestions.noOptions')}
+        </Typography>
+      )}
     </Paper>
   );
 };

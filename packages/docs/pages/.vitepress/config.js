@@ -89,13 +89,22 @@ export default defineConfig({
           ],
         },
         {
-          text: 'Github',
+          text: 'GitHub',
           collapsible: true,
           collapsed: true,
           items: [
             { text: 'Triggers', link: '/apps/github/triggers' },
             { text: 'Actions', link: '/apps/github/actions' },
             { text: 'Connection', link: '/apps/github/connection' },
+          ],
+        },
+        {
+          text: 'GitLab',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            { text: 'Triggers', link: '/apps/gitlab/triggers' },
+            { text: 'Connection', link: '/apps/gitlab/connection' },
           ],
         },
         {
@@ -151,6 +160,15 @@ export default defineConfig({
           items: [
             { text: 'Actions', link: '/apps/openai/actions' },
             { text: 'Connection', link: '/apps/openai/connection' },
+          ],
+        },
+        {
+          text: 'PostgreSQL',
+          collapsible: true,
+          collapsed: true,
+          items: [
+            { text: 'Actions', link: '/apps/postgresql/actions' },
+            { text: 'Connection', link: '/apps/postgresql/connection' },
           ],
         },
         {
